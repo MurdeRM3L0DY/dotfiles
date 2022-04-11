@@ -1,0 +1,5 @@
+plugin/packer_compiled.lua
+lua/scratch/
+.python-version
+.stylua.toml
+.luarc.json

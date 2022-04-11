@@ -1,0 +1,53 @@
+local telescope = require 'telescope'
+local actions = require 'telescope.actions'
+
+telescope.setup {
+  defaults = {
+    file_ignore_patterns = { 'node_modules/', 'dist/', './git/', '.github/', '.next/', 'target/' },
+    -- borderchars = { '', '', '', '', '', '', '', '' },
+    preview = {
+      treesitter = true,
+    },
+    prompt_prefix = '  ',
+    selection_caret = ' ',
+    entry_prefix = ' ',
+    dynamic_preview_title = true,
+    vimgrep_arguments = {
+      'rg',
+      '--ignore',
+      '--hidden',
+      '--color=never',
+      '--no-heading',
+      '--with-filename',
+      '--line-number',
+      '--column',
+      '--smart-case',
+    },
+    mappings = {
+      i = {
+        ['<esc>'] = actions.close,
+        ['<C-d>'] = actions.preview_scrolling_down,
+        ['<C-u>'] = actions.preview_scrolling_up,
+        ['<C-j>'] = actions.move_selection_next,
+        ['<C-k>'] = actions.move_selection_previous,
+      },
+    },
+  },
+  extensions = {
+    fzf = {
+      fuzzy = true, -- false will only do exact matching
+      override_generic_sorter = true, -- override the generic sorter
+      override_file_sorter = true, -- override the file sorter
+      case_mode = 'smart_case', -- or "ignore_case" or "respect_case"
+    },
+    file_browser = {
+      theme = 'ivy',
+    },
+  },
+}
+
+telescope.load_extension 'fzf'
+telescope.load_extension 'frecency'
+telescope.load_extension 'file_browser'
+telescope.load_extension 'notify'
+telescope.load_extension 'opener'

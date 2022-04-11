@@ -1,0 +1,37 @@
+@document.meta
+  title: test
+  description: 
+  authors: nemesis
+  categories: 
+  created: 2022-01-15
+  version: 0.0.9
+@end
+
+* \*This should be a bold italic text\*
+* \-This instead shuold be strikethrough\-
+* \_This should be underlined\_
+
+* Stuff to do
+  - [ ] Elaborato SIS
+  - [x] Done task yay
+
+* Heading 1
+ ** Heading 2
+  *** Heading 3
+   **** Heading 4
+    ***** Heading 5
+      ****** Heading 6
+       ******* Heading 7
+               ---- wtf1
+               ----- nice kok
+               ----- doing stuff
+               ----- okay cool
+               ----- nice
+               --- wtf2
+               -- cool indent stuffs
+
+@table
+Column 1 | Column 2
+-
+This is a new row | Separated by a horizontal line
+@end
