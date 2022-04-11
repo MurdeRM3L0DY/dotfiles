@@ -1,6 +1,6 @@
-- name: Test Play
+- name: Bootstrap
   hosts: local
   roles:
-    - role: bootdot
-      tags:
-        - bootdot
+    - mpd
+    - ncmpcpp
+    - nvim

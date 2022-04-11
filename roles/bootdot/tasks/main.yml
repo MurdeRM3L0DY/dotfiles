@@ -1,6 +1,0 @@
-- name: pacman | install wezterm
-  become: yes
-  become_user: root
-  pacman:
-    name: wezterm
-    state: present
