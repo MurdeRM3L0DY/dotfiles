@@ -1,0 +1,3 @@
+[submodule "roles/bootdot/files/SHOME/.config/nvim"]
+	path = roles/bootdot/files/SHOME/.config/nvim
+	url = https://github.com/MurdeRM3L0DY/nvim

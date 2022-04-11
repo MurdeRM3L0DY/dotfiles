@@ -1,0 +1,6 @@
+- name: Test Play
+  hosts: local
+  roles:
+    - role: bootdot
+      tags:
+        - bootdot
