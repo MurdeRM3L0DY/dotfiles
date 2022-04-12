@@ -1,36 +1,36 @@
 local compleet = require 'compleet'
 -- local K = require 'utils.keymap'
 --
-compleet.setup {
-  ui = {
-    menu = {
-      border = {
-        -- style = 'single',
-        style = { '+', 'x' },
-      },
-    },
-    details = {
-      border = {
-        -- style = { '/', '-', '\\', '|' },
-        style = { '+', 'x' },
-        -- style = 'shadow',
-      },
-    },
-
-    hint = {
-      enable = false,
-    },
-  },
-  completion = {
-    while_deleting = true,
-  },
-  sources = {
-    Lsp = {
-      enable = false,
-      test = 'CompletionItem',
-    },
-  },
-}
+-- compleet.setup {
+--   ui = {
+--     menu = {
+--       border = {
+--         -- style = 'single',
+--         style = { '+', 'x' },
+--       },
+--     },
+--     details = {
+--       border = {
+--         -- style = { '/', '-', '\\', '|' },
+--         style = { '+', 'x' },
+--         -- style = 'shadow',
+--       },
+--     },
+--
+--     hint = {
+--       enable = false,
+--     },
+--   },
+--   completion = {
+--     while_deleting = true,
+--   },
+--   sources = {
+--     Lsp = {
+--       enable = false,
+--       test = 'CompletionItem',
+--     },
+--   },
+-- }
 
 -- local tab = function()
 --   return (compleet.is_menu_visible() and '<Plug>(compleet-next-completion)')

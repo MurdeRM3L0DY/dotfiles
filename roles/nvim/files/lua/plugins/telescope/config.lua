@@ -4,7 +4,7 @@ local actions = require 'telescope.actions'
 telescope.setup {
   defaults = {
     file_ignore_patterns = { 'node_modules/', 'dist/', './git/', '.github/', '.next/', 'target/' },
-    -- borderchars = { '', '', '', '', '', '', '', '' },
+    borderchars = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
     preview = {
       treesitter = true,
     },
@@ -47,7 +47,6 @@ telescope.setup {
 }
 
 telescope.load_extension 'fzf'
-telescope.load_extension 'frecency'
 telescope.load_extension 'file_browser'
 telescope.load_extension 'notify'
 telescope.load_extension 'opener'

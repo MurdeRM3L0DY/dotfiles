@@ -1,0 +1,25 @@
+# vim:ft=yaml.ansible
+- name: clone neovim
+  git:
+    repo: https://github.com/neovim/neovim
+    dest: "{{ nvim_dest }}"
+  register: nvim_git
+
+- name: make distclean
+  when: nvim_git.changed == true
+  make:
+    chdir: "{{ nvim_dest }}"
+    target: distclean
+
+- name: make
+  become: true
+  make:
+    chdir: "{{ nvim_dest }}"
+    params:
+      CMAKE_BUILD_TYPE: Release
+
+- name: make install
+  become: true
+  make:
+    chdir: "{{ nvim_dest }}"
+    target: install

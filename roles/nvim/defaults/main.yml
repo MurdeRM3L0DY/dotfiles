@@ -1,0 +1,5 @@
+---
+
+nvim_dest: "{{ ansible_env.HOME }}/repos/neovim"
+
+...

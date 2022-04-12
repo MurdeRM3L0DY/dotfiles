@@ -13,7 +13,6 @@ end
 
 K.set('n', '<leader>ff', function()
   find_files {
-    -- borderchars = { '', '', '', '', '', '', '', '' },
     no_ignore = true,
   }
 end)

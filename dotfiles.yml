@@ -1,6 +1,9 @@
+# vim:ft=yaml.ansible.
 - name: Bootstrap
   hosts: local
   roles:
+    - awesome
     - mpd
     - ncmpcpp
     - nvim
+    - zsh

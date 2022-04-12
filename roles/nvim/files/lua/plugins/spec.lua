@@ -12,7 +12,7 @@ local telescope_ext = function(ext)
   return ('telescope._extensions.%s'):format(ext)
 end
 
-local fork = function(name)
+local __local = function(name)
   return ('%s/dev/plugins/%s'):format(HOME, name)
 end
 
@@ -47,14 +47,11 @@ return function(use)
     disable = true,
   }
 
-  use { 'MunifTanjim/nui.nvim', config = config 'nui' }
+  use { 'MunifTanjim/nui.nvim', module = { 'nui' } }
 
   use { 'rcarriga/nvim-notify', config = config 'notify' }
 
-  use {
-    'sunjon/stylish.nvim',
-    module = { 'stylish' },
-  }
+  use { 'sunjon/stylish.nvim', module = { 'stylish' } }
 
   use { 'kyazdani42/nvim-web-devicons', module = { 'nvim-web-devicons' } }
 
@@ -65,23 +62,19 @@ return function(use)
   use { 'rktjmp/lush.nvim', module = { 'lush' } }
 
   use {
-    ('%s/dev/plugins/colorblind.nvim'):format(HOME),
+    __local 'colorblind.nvim',
     config = [[vim.api.nvim_command 'colorscheme colorblind']],
   }
 
   use {
-    ('%s/dev/plugins/rust_lua'):format(HOME),
+    __local 'rust_lua',
     config = config 'rust_lua',
   }
 
   use {
-    fork 'nvim-compleet',
+    __local 'nvim-compleet',
     config = config 'compleet',
-    -- run = 'cargo build --release && make install',
-    -- branch = 'back2rpc',
-    run = 'cargo build --release && make install',
-    commit = '08cd076',
-    -- disable = true,
+    run = 'cargo build --release && ./install',
   }
 
   use { 'rebelot/heirline.nvim', config = config 'heirline' }
@@ -120,12 +113,7 @@ return function(use)
     module = { telescope_ext 'file_browser' },
   }
 
-  use {
-    'nvim-telescope/telescope-frecency.nvim',
-    module = { telescope_ext 'frecency' },
-  }
-
-  use { 'ibhagwan/fzf-lua', config = config 'fzf-lua', module = { 'fzf-lua' } }
+  use { 'ibhagwan/fzf-lua', config = config 'fzf-lua' }
 
   use {
     'iamcco/markdown-preview.nvim',
@@ -178,8 +166,6 @@ return function(use)
 
   use { 'b0o/SchemaStore.nvim', module = { 'schemastore' } }
 
-  use { 'michaelb/sniprun', run = './install.sh' }
-
   use {
     'folke/trouble.nvim',
     module = { 'trouble' },
@@ -226,15 +212,7 @@ return function(use)
 
   use { 'numToStr/Comment.nvim', config = config 'Comment' }
 
-  -- use {
-  --   'windwp/nvim-autopairs',
-  --   config = config 'autopairs',
-  --   event = { 'InsertEnter *' },
-  -- }
-
   use { 'lewis6991/gitsigns.nvim', config = config 'gitsigns' }
-
-  use { 'pwntester/octo.nvim', config = config 'octo' }
 
   use {
     'TimUntersberger/neogit',

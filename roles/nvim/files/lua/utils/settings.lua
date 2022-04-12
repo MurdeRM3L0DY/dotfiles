@@ -1,8 +1,5 @@
 local M = {}
 
-local uv = vim.loop
-local HOME = os.getenv 'HOME'
-
 M.ui = {
   border = {
     { '┌', 'FloatBorder' },
@@ -15,17 +12,16 @@ M.ui = {
     { '│', 'FloatBorder' },
   },
   signs = {
-    Error = ' ',
-    Warn = ' ',
+    Error = '',
+    Warn = '',
     Hint = '',
-    Info = ' ',
+    Info = '',
   },
 }
 
 M.env = {
   PYTHON_HOST = '',
   NODE_HOST = '',
-  SERVERS_DIR = uv.fs_realpath(HOME .. '/dev/langservers'),
 }
 
 return M

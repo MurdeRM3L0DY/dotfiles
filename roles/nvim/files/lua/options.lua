@@ -1,6 +1,6 @@
 local opt = vim.opt
--- General neovim options
 
+-- general options
 opt.hidden = true
 opt.wrap = false
 opt.shortmess:append 'cI'
@@ -39,7 +39,7 @@ vim.opt.fillchars:append {
 
 opt.list = true
 opt.listchars:append {
-  tab = '▷⋯', -- WHITE RIGHT-POINTING TRIANGLE (U+25B7, UTF-8: E2 96 B7) + MIDLINE HORIZONTAL ELLIPSIS (U+22EF, UTF-8: E2 8B AF)
+  tab = '▷⋯',
   space = '⋅',
   nbsp = '␣',
   trail = '•',

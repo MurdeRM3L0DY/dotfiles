@@ -2,7 +2,7 @@ local K = {}
 -- local co = require 'lib.coroutine'()
 local co = coroutine
 
-local make_mapper = function(defaults)
+local set = function(defaults)
   ---@param modes string|string[]
   ---@param lhs string
   ---@param rhs string|function
@@ -52,7 +52,7 @@ mapping.iter = function(self)
   local next_mapping
 
   next_mapping = function(map)
-    if type(map.rhs) ~= 'table' or map.rhs.mode then
+    if type(map.rhs) ~= 'table' then
       co.yield(map.key, map.rhs, map.opts)
     else
       if getmetatable(map.rhs) == mapping then
@@ -74,43 +74,39 @@ mapping.iter = function(self)
   end)
 end
 
+local key = function(key, map, opts)
+  opts = opts or {}
+
+  for mode, rhs in pairs(map) do
+    if type(rhs) == 'table' then
+      K.set(mode, key, rhs.callback, vim.tbl_extend('force', opts, rhs.opts or {}))
+    else
+      K.set(mode, key, rhs, opts)
+    end
+  end
+end
+
 return setmetatable(K, {
   __index = {
-    set = make_mapper { noremap = true, silent = true },
+    key = key,
+
+    set = set { noremap = true, silent = true },
 
     t = function(key)
       return vim.api.nvim_replace_termcodes(key, true, true, true)
     end,
+  },
+  __call = function(_, modes, mappings, defaults)
+    if type(modes) ~= 'table' then
+      modes = { modes }
+    end
 
-    key = function(key, map, opts)
-      opts = opts or {}
-
-      for mode, rhs in pairs(map) do
-        if type(rhs) == 'table' then
-          K.set(mode, key, rhs.callback, vim.tbl_extend('force', opts, rhs.opts or {}))
-        else
-          K.set(mode, key, rhs, opts)
+    for _, mode in ipairs(modes) do
+      for _, map in ipairs(mappings) do
+        for lhs, rhs, opts in map:iter() do
+          K.set(mode, lhs, rhs, vim.tbl_extend('force', defaults or {}, opts))
         end
       end
-    end,
-  },
-  -- __call = function(_, modes, mappings, defaults)
-  --   if type(modes) ~= 'table' then
-  --     modes = { modes }
-  --   end
-  --
-  --   for _, mode in ipairs(modes) do
-  --     for _, map in ipairs(mappings) do
-  --       for lhs, rhs, opts in map:iter() do
-  --         -- if rhs.mode then
-  --         --   for _mode, _rhs in pairs(rhs.mode) do
-  --         --     K.set(_mode, lhs, _rhs, opts)
-  --         --   end
-  --         -- else
-  --         K.set(mode, lhs, rhs, vim.tbl_extend('force', defaults or {}, opts))
-  --         -- end
-  --       end
-  --     end
-  --   end
-  -- end,
+    end
+  end,
 })
