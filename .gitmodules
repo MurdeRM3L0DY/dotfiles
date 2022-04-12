@@ -1,0 +1,9 @@
+[submodule "/home/nemesis/dotfiles/roles/awesome/files/module/bling"]
+	path = /home/nemesis/dotfiles/roles/awesome/files/module/bling
+	url = https://github.com/BlingCorp/bling
+[submodule "/home/nemesis/dotfiles/roles/awesome/files/module/layout-machi"]
+	path = /home/nemesis/dotfiles/roles/awesome/files/module/layout-machi
+	url = https://github.com/xinhaoyuan/layout-machi
+[submodule "/home/nemesis/dotfiles/roles/awesome/files/module/rubato"]
+	path = /home/nemesis/dotfiles/roles/awesome/files/module/rubato
+	url = https://github.com/andOrlando/rubato
