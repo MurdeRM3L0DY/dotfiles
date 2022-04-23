@@ -100,7 +100,7 @@ if ok then
   jdtls_server:on_ready(function()
     config.cmd = jdtls_server:get_default_options().cmd
 
-    augroup 'JDTLS_AUGROUP'(function(autocmd)
+    augroup('JDTLS_AUGROUP', { clear = true })(function(autocmd, _)
       autocmd({ 'FileType' }, {
         pattern = 'java',
         callback = function()

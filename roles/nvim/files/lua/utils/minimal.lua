@@ -56,6 +56,12 @@ end
 load_plugins = function()
   packer.startup(function(use)
     use { 'wbthomason/packer.nvim' }
+
+    use {
+      'noib3/nvim-compleet',
+      config = "require 'plugins.compleet.config'",
+      run = 'cargo build && ./install.sh',
+    }
   end)
 
   if _G.packer_plugins then

@@ -1,6 +1,10 @@
 local K = require 'utils.keymap'
 local g = vim.g
 
+local nvim_tree = function()
+  return require 'nvim-tree'
+end
+
 g.nvim_tree_git_hl = 1
 g.nvim_tree_highlight_opened_files = 1
 g.nvim_tree_root_folder_modifier = ':~'
@@ -55,5 +59,5 @@ g.nvim_tree_icons = {
 }
 
 K.set('n', '<leader>e', function()
-  require('nvim-tree').toggle()
-end, { desc = '(nvim-tree): Toggle File Explorer' })
+  nvim_tree().toggle()
+end)

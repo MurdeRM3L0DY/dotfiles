@@ -1,25 +1,4 @@
 local K = require 'utils.keymap'
-local parsers = require 'nvim-treesitter.parsers'
-local ft_to_parser = parsers.filetype_to_parsername
--- local parser_configs = parsers.get_parser_configs()
-
--- parser_configs.norg_meta = {
---   install_info = {
---     url = 'https://github.com/nvim-neorg/tree-sitter-norg-meta',
---     files = { 'src/parser.c' },
---     branch = 'main',
---   },
--- }
---
--- parser_configs.norg_table = {
---   install_info = {
---     url = 'https://github.com/nvim-neorg/tree-sitter-norg-table',
---     files = { 'src/parser.c' },
---     branch = 'main',
---   },
--- }
-
-ft_to_parser['octo'] = 'markdown'
 
 require('nvim-treesitter.configs').setup {
   ensure_installed = {
@@ -89,19 +68,37 @@ require('nvim-treesitter.configs').setup {
   context_commentstring = {
     enable = false,
   },
-  autopairs = {
-    enable = true,
-  },
   rainbow = {
     enable = true,
     extended_mode = true,
   },
 
   matchup = {
-    enable = true, -- mandatory, false will disable the whole extension
+    enable = false, -- mandatory, false will disable the whole extension
   },
 
   textobjects = {
+    enable = true,
+
+    set_jumps = true, -- whether to set jumps in the jumplist
+
+    goto_next_start = {
+      [']m'] = '@function.outer',
+      [']]'] = '@class.outer',
+    },
+    goto_next_end = {
+      [']M'] = '@function.outer',
+      [']['] = '@class.outer',
+    },
+    goto_previous_start = {
+      ['[m'] = '@function.outer',
+      ['[['] = '@class.outer',
+    },
+    goto_previous_end = {
+      ['[M'] = '@function.outer',
+      ['[]'] = '@class.outer',
+    },
+
     select = {
       enable = true,
 
@@ -116,8 +113,10 @@ require('nvim-treesitter.configs').setup {
         ['ic'] = '@class.inner',
       },
     },
+
     swap = {
       enable = true,
+
       swap_next = {
         ['<leader>a'] = '@parameter.inner',
       },
@@ -134,12 +133,8 @@ require('nvim-treesitter.configs').setup {
       [';'] = 'textsubjects-container-outer',
     },
   },
-
-  endwise = {
-    enable = true,
-  },
 }
 
 K.set('n', '<leader>th', '<cmd>TSHighlightCapturesUnderCursor<cr>')
-
+K.set('n', '<leader>tn', '<cmd>TSNodeUnderCursor<cr>')
 K.set('n', '<leader>pt', '<cmd>TSPlaygroundToggle<cr>')

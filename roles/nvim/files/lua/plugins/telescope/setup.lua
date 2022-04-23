@@ -1,14 +1,26 @@
 local K = require 'utils.keymap'
 
+local telescope = function()
+  return require 'telescope'
+end
+
+local builtin = function()
+  return require 'telescope.builtin'
+end
+
+local themes = function()
+  return require 'telescope.themes'
+end
+
 local with_ivy = function(opts)
-  return require('telescope.themes').get_ivy(opts or {})
+  return themes().get_ivy(opts or {})
 end
 
 local find_files = function(opts)
   local find_command = { 'rg', '--files', '--ignore', '--hidden' }
   local defaults = { find_command = find_command }
 
-  require('telescope.builtin').find_files(with_ivy(vim.tbl_extend('force', defaults, opts)))
+  builtin().find_files(with_ivy(vim.tbl_extend('force', defaults, opts)))
 end
 
 K.set('n', '<leader>ff', function()
@@ -22,15 +34,15 @@ K.set('n', '<leader>fn', function()
 end)
 
 K.set('n', '<leader>fs', function()
-  require('telescope.builtin').grep_string { search = vim.fn.input 'Search String -> ' }
+  builtin().grep_string { search = vim.fn.input 'Search String -> ' }
 end)
 
 K.set('n', '<leader>fb', function()
-  require('telescope').extensions.file_browser.file_browser()
+  telescope().extensions.file_browser.file_browser()
 end)
 
 K.set('n', '<leader>cd', function()
-  require('telescope').extensions.opener.opener {
+  telescope().extensions.opener.opener {
     hidden = true,
   }
 end)

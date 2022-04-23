@@ -24,8 +24,6 @@ local set = function(defaults)
           end
         end
       end)(rhs)
-    else
-      opts.noremap = rhs:match '<[pP]lug>' == nil
     end
 
     if type(modes) == 'string' then
@@ -79,7 +77,7 @@ local key = function(key, map, opts)
 
   for mode, rhs in pairs(map) do
     if type(rhs) == 'table' then
-      K.set(mode, key, rhs.callback, vim.tbl_extend('force', opts, rhs.opts or {}))
+      K.set(mode, key, rhs.rhs, vim.tbl_extend('force', opts, rhs.opts or {}))
     else
       K.set(mode, key, rhs, opts)
     end
@@ -92,8 +90,8 @@ return setmetatable(K, {
 
     set = set { noremap = true, silent = true },
 
-    t = function(key)
-      return vim.api.nvim_replace_termcodes(key, true, true, true)
+    t = function(k)
+      return vim.api.nvim_replace_termcodes(k, true, true, true)
     end,
   },
   __call = function(_, modes, mappings, defaults)

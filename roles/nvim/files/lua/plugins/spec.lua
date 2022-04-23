@@ -59,6 +59,8 @@ return function(use)
 
   use { 'mortepau/codicons.nvim', module = { 'codicons' } }
 
+  use { 'rktjmp/shipwright.nvim', module = { 'shipwright' } }
+
   use { 'rktjmp/lush.nvim', module = { 'lush' } }
 
   use {
@@ -73,8 +75,9 @@ return function(use)
 
   use {
     __local 'nvim-compleet',
+    -- 'noib3/nvim-compleet',
     config = config 'compleet',
-    run = 'cargo build --release && ./install',
+    run = 'cargo build && ./install.sh',
   }
 
   use { 'rebelot/heirline.nvim', config = config 'heirline' }
@@ -90,8 +93,6 @@ return function(use)
     module = { telescope_ext 'opener' },
     config = config 'opener',
   }
-
-  -- use { 'junegunn/fzf.vim', requires = { 'junegunn/fzf' } }
 
   use { 'folke/lua-dev.nvim', module = { 'lua-dev' } }
 
@@ -130,9 +131,12 @@ return function(use)
     config = config 'nvim-tree',
   }
 
+  use { 'ZhiyuanLck/smart-pairs', config = config 'pairs' }
+
   use { 'hrsh7th/nvim-cmp', config = config 'cmp' }
   use { 'hrsh7th/cmp-nvim-lsp', module = { 'cmp_nvim_lsp' }, after = { 'nvim-cmp' } }
   use { 'hrsh7th/cmp-nvim-lsp-signature-help', after = { 'nvim-cmp' } }
+  use { 'hrsh7th/cmp-nvim-lsp-document-symbol', after = { 'nvim-cmp' } }
   use { 'hrsh7th/cmp-path', after = { 'nvim-cmp' } }
   use { 'hrsh7th/cmp-cmdline', after = { 'nvim-cmp' } }
   use { 'hrsh7th/cmp-buffer', after = { 'nvim-cmp' } }
@@ -194,7 +198,13 @@ return function(use)
   use {
     'mfussenegger/nvim-treehopper',
     module = { 'tsht' },
-    setup = setup 'tsht',
+    setup = setup 'treehopper',
+  }
+
+  use {
+    'ziontee113/syntax-tree-surfer',
+    module = { 'syntax-tree-surfer' },
+    setup = setup 'treesurfer',
   }
 
   use { 'nvim-treesitter/nvim-treesitter', config = config 'treesitter', run = ':TSUpdate' }

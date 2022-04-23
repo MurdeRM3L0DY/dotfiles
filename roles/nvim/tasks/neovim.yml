@@ -3,9 +3,11 @@
   git:
     repo: https://github.com/neovim/neovim
     dest: "{{ nvim_dest }}"
+    force: true
   register: nvim_git
 
 - name: make distclean
+  become: true
   when: nvim_git.changed == true
   make:
     chdir: "{{ nvim_dest }}"
@@ -16,7 +18,7 @@
   make:
     chdir: "{{ nvim_dest }}"
     params:
-      CMAKE_BUILD_TYPE: Release
+      CMAKE_BUILD_TYPE: "Release"
 
 - name: make install
   become: true

@@ -35,7 +35,16 @@ require('nvim-tree').setup {
     -- only relevant when `update_focused_file.update_cwd` is true and `update_focused_file.enable` is true
     ignore_list = {},
   },
-
+  renderer = {
+    indent_markers = {
+      enable = true,
+      -- icons = {
+      --   corner = '└ ',
+      --   edge = '│ ',
+      --   none = '  ',
+      -- },
+    },
+  },
   actions = {
     open_file = {
       quit_on_open = true,

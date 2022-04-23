@@ -28,9 +28,9 @@ local mappings = function(client, bufnr)
   end, opts)
   K.set('i', '<C-s>', function()
     local params = vim.lsp.util.make_position_params()
-    client.request('textDocument/signatureHelp', params, function(err, res, _, _)
-      P(res)
-    end)
+    -- client.request('textDocument/signatureHelp', params, function(err, res, _, _)
+    --   P(res)
+    -- end)
     vim.lsp.buf.signature_help()
   end, opts)
   K.set('n', 'gt', function()
@@ -45,9 +45,6 @@ local mappings = function(client, bufnr)
     require('telescope.builtin').lsp_document_symbols {
       layout_strategy = 'vertical',
     }
-  end, opts)
-  K.set('n', '<leader>F', function()
-    vim.lsp.buf.formatting()
   end, opts)
 
   K.set('n', '<leader>dd', function()
@@ -140,10 +137,14 @@ if has_cmp_nvim_lsp then
   cfg.capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
 end
 
+cfg.on_init = function(client, _)
+  vim.notify(('`%s` initialized'):format(client.name))
+end
+
 cfg.on_attach = function(client, bufnr)
   -- use null-ls for code formatting
-  client.resolved_capabilities.document_formatting = false
-  client.resolved_capabilities.range_formatting = false
+  client.server_capabilities.documentFormattingProvider = false
+  client.server_capabilities.documentRangeFormattingProvider = false
 
   -- require('lsp.handlers.documentColor').on_attach(client, bufnr)
 
@@ -161,12 +162,8 @@ cfg.on_attach = function(client, bufnr)
   mappings(client, bufnr)
 end
 
-cfg.on_init = function(client, initialize_result)
-  vim.notify(('`%s` attached'):format(client.name))
-end
-
 M.client_config = function(opts)
-  for _, k in ipairs { 'on_attach', 'on_init', 'on_new_config' } do
+  for _, k in ipairs { 'on_init', 'on_attach' } do
     opts[k] = (function(o)
       return function(...)
         local _ = cfg[k] and cfg[k](...)
@@ -175,7 +172,7 @@ M.client_config = function(opts)
     end)(opts[k])
   end
 
-  for _, k in ipairs { 'handlers', 'capabilities' } do
+  for _, k in ipairs { 'capabilities' } do
     opts[k] = vim.tbl_extend('keep', cfg[k] or {}, opts[k] or {})
   end
 

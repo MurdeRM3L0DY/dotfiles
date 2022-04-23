@@ -1,0 +1,1 @@
+require('pairs'):setup {}

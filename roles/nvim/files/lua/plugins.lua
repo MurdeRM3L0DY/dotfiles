@@ -1,12 +1,12 @@
 local fn = vim.fn
 local uv = vim.loop
+
 local augroup = require 'utils.augroup'
+local PACKER_USER_AUGROUP = augroup('PACKER_USER_AUGROUP', {})
 
 local PACKER_DIR = fn.stdpath 'data' .. '/site/pack/packer/'
 local START_DIR = PACKER_DIR .. 'start/'
-local OPT_DIR = PACKER_DIR .. '/opt'
 local PACKER_ROOT = START_DIR .. 'packer.nvim'
-local PACKER_USER_AUGROUP = augroup 'PACKER_USER_AUGROUP'
 
 local packer, packer_setup, load_plugins
 
