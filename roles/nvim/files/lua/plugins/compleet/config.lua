@@ -30,7 +30,7 @@ compleet.setup {
     },
     lsp = {
       enable = false,
-      test = 'CompletionItem',
+      test = 'compleet',
     },
   },
 }

@@ -1,244 +1,239 @@
 local HOME = vim.loop.os_homedir()
 
-local setup = function(plugin)
-  return ("require 'plugins.%s.setup'"):format(plugin)
+local setup_config_factory = function(sc)
+  return function(plugin)
+    local modname = ('plugins.%s.%s'):format(plugin, sc)
+    local fullpath = vim.fn.stdpath 'config' .. ('/lua/%s.lua'):format(modname:gsub('[.]', '/'))
+    if not vim.loop.fs_stat(fullpath) then
+      return nil
+    end
+    return ("require '%s'"):format(modname)
+  end
 end
 
-local config = function(plugin)
-  return ("require 'plugins.%s.config'"):format(plugin)
+local setup = setup_config_factory 'setup'
+local config = setup_config_factory 'config'
+
+local __local = function(name)
+  return ('%s/dev/plugins/%s'):format(HOME, name)
 end
 
 local telescope_ext = function(ext)
   return ('telescope._extensions.%s'):format(ext)
 end
 
-local __local = function(name)
-  return ('%s/dev/plugins/%s'):format(HOME, name)
-end
+return function(_use)
+  local use = function(name, opts)
+    opts = opts or {}
 
-return function(use)
-  use { 'wbthomason/packer.nvim' }
+    if opts.as then
+      opts.setup = setup(opts.as)
+      opts.config = config(opts.as)
+    end
 
-  use { 'lewis6991/impatient.nvim' }
+    _use(vim.tbl_extend('error', { name }, opts))
+  end
 
-  use { 'nvim-lua/plenary.nvim', module = { 'plenary' } }
+  use('wbthomason/packer.nvim', {})
 
-  use { 'tpope/vim-scriptease' }
+  use('lewis6991/impatient.nvim', {})
 
-  use { 'nanotee/luv-vimdocs' }
+  use('nvim-lua/plenary.nvim', { module = { 'plenary' } })
 
-  use { 'milisims/nvim-luaref' }
+  use('tpope/vim-scriptease', {})
 
-  use { 'jbyuki/venn.nvim', config = config 'venn' }
+  use('nanotee/luv-vimdocs', {})
 
-  use {
-    'nvim-neo-tree/neo-tree.nvim',
+  use('milisims/nvim-luaref', {})
+
+  use('jbyuki/venn.nvim', { as = 'venn' })
+
+  use('nvim-neo-tree/neo-tree.nvim', {
+    as = 'neo-tree',
     branch = 'v2.x',
     module = { 'neo-tree' },
-    setup = setup 'neo-tree',
-    config = config 'neo-tree',
-  }
+  })
 
-  use {
-    'beauwilliams/focus.nvim',
+  use('beauwilliams/focus.nvim', {
     config = function()
       require('focus').setup()
     end,
     disable = true,
-  }
+  })
 
-  use { 'MunifTanjim/nui.nvim', module = { 'nui' } }
+  use('MunifTanjim/nui.nvim', { module = { 'nui' } })
 
-  use { 'rcarriga/nvim-notify', config = config 'notify' }
+  use('rcarriga/nvim-notify', { as = 'notify' })
 
-  use { 'sunjon/stylish.nvim', module = { 'stylish' } }
+  use('sunjon/stylish.nvim', { module = { 'stylish' } })
 
-  use { 'kyazdani42/nvim-web-devicons', module = { 'nvim-web-devicons' } }
+  use('kyazdani42/nvim-web-devicons', { module = { 'nvim-web-devicons' } })
 
-  use { 'yamatsum/nvim-nonicons', after = { 'nvim-web-devicons' } }
+  use('yamatsum/nvim-nonicons', { after = { 'nvim-web-devicons' } })
 
-  use { 'mortepau/codicons.nvim', module = { 'codicons' } }
+  use('mortepau/codicons.nvim', { module = { 'codicons' } })
 
-  use { 'rktjmp/shipwright.nvim', module = { 'shipwright' } }
+  use('rktjmp/shipwright.nvim', { module = { 'shipwright' } })
 
-  use { 'rktjmp/lush.nvim', module = { 'lush' } }
+  use('rktjmp/lush.nvim', { module = { 'lush' } })
 
-  use {
-    __local 'colorblind.nvim',
+  use(__local 'colorblind.nvim', {
     config = [[vim.api.nvim_command 'colorscheme colorblind']],
-  }
+  })
 
-  use {
-    __local 'rust_lua',
-    config = config 'rust_lua',
-  }
+  use(__local 'rust_lua', {
+    as = 'rust_lua',
+  })
 
-  use {
-    __local 'nvim-compleet',
+  use(__local 'nvim-compleet', {
     -- 'noib3/nvim-compleet',
-    config = config 'compleet',
-    run = 'cargo build && ./install.sh',
-  }
+    as = 'compleet',
+  })
 
-  use { 'rebelot/heirline.nvim', config = config 'heirline' }
+  use('rebelot/heirline.nvim', { as = 'heirline' })
 
-  use { 'tami5/sqlite.lua', module = { 'sqlite' } }
+  use('tami5/sqlite.lua', { module = { 'sqlite' } })
 
-  use { 'nvim-lualine/lualine.nvim', config = config 'lualine', disable = true }
+  use('nvim-lualine/lualine.nvim', {
+    as = 'lualine',
+    disable = true,
+  })
 
-  use { 'romgrk/fzy-lua-native', run = 'make', module = { 'fzy-lua-native' } }
+  use('romgrk/fzy-lua-native', {
+    run = 'make',
+    module = { 'fzy-lua-native' },
+  })
 
-  use {
-    'willthbill/opener.nvim',
+  use('willthbill/opener.nvim', {
     module = { telescope_ext 'opener' },
-    config = config 'opener',
-  }
+    as = 'opener',
+  })
 
-  use { 'folke/lua-dev.nvim', module = { 'lua-dev' } }
+  use('folke/lua-dev.nvim', { module = { 'lua-dev' } })
 
-  use {
-    'nvim-telescope/telescope.nvim',
+  use('nvim-telescope/telescope.nvim', {
+    as = 'telescope',
     module = { 'telescope' },
-    setup = setup 'telescope',
-    config = config 'telescope',
-  }
+  })
 
-  use {
-    'nvim-telescope/telescope-fzf-native.nvim',
+  use('nvim-telescope/telescope-fzf-native.nvim', {
     module = { 'fzf_lib', telescope_ext 'fzf' },
     run = 'make',
-  }
+  })
 
-  use {
-    'nvim-telescope/telescope-file-browser.nvim',
+  use('nvim-telescope/telescope-file-browser.nvim', {
     module = { telescope_ext 'file_browser' },
-  }
+  })
 
-  use { 'ibhagwan/fzf-lua', config = config 'fzf-lua' }
+  use('ibhagwan/fzf-lua', { as = 'fzf-lua' })
 
-  use {
-    'iamcco/markdown-preview.nvim',
+  use('iamcco/markdown-preview.nvim', {
     run = 'cd app && yarn install',
     ft = { 'markdown' },
-  }
+  })
 
-  use { 'lervag/vimtex', ft = { 'tex' } }
+  use('lervag/vimtex', { ft = { 'tex' } })
 
-  use {
-    'kyazdani42/nvim-tree.lua',
+  use('kyazdani42/nvim-tree.lua', {
     module = { 'nvim-tree' },
-    setup = setup 'nvim-tree',
-    config = config 'nvim-tree',
-  }
+    as = 'nvim-tree',
+  })
 
-  use { 'ZhiyuanLck/smart-pairs', config = config 'pairs' }
+  use('ZhiyuanLck/smart-pairs', { as = 'pairs' })
 
-  use { 'hrsh7th/nvim-cmp', config = config 'cmp' }
-  use { 'hrsh7th/cmp-nvim-lsp', module = { 'cmp_nvim_lsp' }, after = { 'nvim-cmp' } }
-  use { 'hrsh7th/cmp-nvim-lsp-signature-help', after = { 'nvim-cmp' } }
-  use { 'hrsh7th/cmp-nvim-lsp-document-symbol', after = { 'nvim-cmp' } }
-  use { 'hrsh7th/cmp-path', after = { 'nvim-cmp' } }
-  use { 'hrsh7th/cmp-cmdline', after = { 'nvim-cmp' } }
-  use { 'hrsh7th/cmp-buffer', after = { 'nvim-cmp' } }
-  use { 'saadparwaiz1/cmp_luasnip', after = { 'nvim-cmp' } }
+  use('hrsh7th/nvim-cmp', { as = 'cmp' })
+  use('hrsh7th/cmp-nvim-lsp', { after = { 'cmp' }, module = { 'cmp_nvim_lsp' } })
+  use('hrsh7th/cmp-nvim-lsp-signature-help', { after = { 'cmp' } })
+  use('hrsh7th/cmp-nvim-lsp-document-symbol', { after = { 'cmp' } })
+  use('hrsh7th/cmp-path', { after = { 'cmp' } })
+  use('hrsh7th/cmp-cmdline', { after = { 'cmp' } })
+  use('hrsh7th/cmp-buffer', { after = { 'cmp' } })
+  use('saadparwaiz1/cmp_luasnip', { after = { 'cmp' } })
 
-  use {
-    'L3MON4D3/LuaSnip',
+  use('L3MON4D3/LuaSnip', {
+    as = 'luasnip',
     module = { 'luasnip' },
-    config = config 'luasnip',
-    setup = setup 'luasnip',
-  }
+  })
 
-  use { 'neovim/nvim-lspconfig', config = config 'lspconfig' }
+  use('neovim/nvim-lspconfig', { as = 'lspconfig' })
 
-  use { 'williamboman/nvim-lsp-installer', module = { 'nvim-lsp-installer' } }
+  use('williamboman/nvim-lsp-installer', { module = { 'nvim-lsp-installer' } })
 
-  use { 'j-hui/fidget.nvim', config = config 'fidget' }
+  use('j-hui/fidget.nvim', { as = 'fidget' })
 
-  use { 'jose-elias-alvarez/null-ls.nvim', config = config 'null-ls' }
+  use('jose-elias-alvarez/null-ls.nvim', { as = 'null-ls' })
 
-  use { 'jose-elias-alvarez/nvim-lsp-ts-utils', module = { 'nvim-lsp-ts-utils' } }
+  use('jose-elias-alvarez/nvim-lsp-ts-utils', { module = { 'nvim-lsp-ts-utils' } })
 
-  use {
-    'mfussenegger/nvim-dap',
-    setup = setup 'dap',
-    config = config 'dap',
+  use('mfussenegger/nvim-dap', {
+    as = 'dap',
     module = { 'dap' },
-  }
+  })
 
-  use { 'rcarriga/nvim-dap-ui', module = { 'dapui' } }
+  use('rcarriga/nvim-dap-ui', { module = { 'dapui' } })
 
-  use { 'b0o/SchemaStore.nvim', module = { 'schemastore' } }
+  use('b0o/SchemaStore.nvim', { module = { 'schemastore' } })
 
-  use {
-    'folke/trouble.nvim',
+  use('folke/trouble.nvim', {
+    as = 'trouble',
     module = { 'trouble' },
-    setup = setup 'trouble',
-    config = config 'trouble',
-  }
+  })
 
-  use {
-    'mfussenegger/nvim-jdtls',
-    config = config 'jdtls',
+  use('mfussenegger/nvim-jdtls', {
+    as = 'jdtls',
     ft = { 'java' },
-  }
+  })
 
-  use {
-    'p00f/clangd_extensions.nvim',
-    config = config 'clangd_extensions',
+  use('p00f/clangd_extensions.nvim', {
+    as = 'clangd_extensions',
     ft = { 'c', 'cpp' },
-  }
+  })
 
-  use {
-    'simrat39/rust-tools.nvim',
-    config = config 'rust-tools',
+  use('simrat39/rust-tools.nvim', {
+    as = 'rust-tools',
     ft = { 'rust' },
-  }
+  })
 
-  use {
-    'mfussenegger/nvim-treehopper',
+  use('mfussenegger/nvim-treehopper', {
+    as = 'treehopper',
     module = { 'tsht' },
-    setup = setup 'treehopper',
-  }
+  })
 
-  use {
-    'ziontee113/syntax-tree-surfer',
+  use('ziontee113/syntax-tree-surfer', {
     module = { 'syntax-tree-surfer' },
-    setup = setup 'treesurfer',
-  }
+  })
 
-  use { 'nvim-treesitter/nvim-treesitter', config = config 'treesitter', run = ':TSUpdate' }
-  use { 'nvim-treesitter/playground', after = { 'nvim-treesitter' } }
-  use { 'nvim-treesitter/nvim-treesitter-textobjects', after = { 'nvim-treesitter' } }
-  use { 'RRethy/nvim-treesitter-textsubjects', after = { 'nvim-treesitter' } }
-  use { 'JoosepAlviste/nvim-ts-context-commentstring', after = { 'nvim-treesitter' } }
-  use { 'p00f/nvim-ts-rainbow', after = { 'nvim-treesitter' } }
+  use('nvim-treesitter/nvim-treesitter', { as = 'treesitter', run = ':TSUpdate' })
+  use('nvim-treesitter/playground', { after = { 'treesitter' } })
+  use('nvim-treesitter/nvim-treesitter-textobjects', { after = { 'treesitter' } })
+  use('RRethy/nvim-treesitter-textsubjects', { after = { 'treesitter' } })
+  use('JoosepAlviste/nvim-ts-context-commentstring', { after = { 'treesitter' } })
+  use('p00f/nvim-ts-rainbow', { after = { 'treesitter' } })
 
-  use { 'nvim-neorg/neorg', config = config 'neorg' }
+  use('nvim-neorg/neorg', { as = 'neorg' })
 
-  use { 'akinsho/nvim-bufferline.lua', config = config 'bufferline' }
+  use('akinsho/nvim-bufferline.lua', { as = 'bufferline' })
 
-  use { 'akinsho/toggleterm.nvim', config = config 'toggleterm', keys = { [[<C-\>]] } }
+  use('akinsho/toggleterm.nvim', { as = 'toggleterm', keys = { [[<C-\>]] } })
 
-  use { 'numToStr/Comment.nvim', config = config 'Comment' }
+  use('numToStr/Comment.nvim', { as = 'Comment' })
 
-  use { 'lewis6991/gitsigns.nvim', config = config 'gitsigns' }
+  use('lewis6991/gitsigns.nvim', { as = 'gitsigns' })
 
-  use {
-    'TimUntersberger/neogit',
-    config = config 'neogit',
+  use('TimUntersberger/neogit', {
+    as = 'neogit',
     cmd = { 'Neogit' },
-  }
+  })
 
-  use { 'sindrets/diffview.nvim', config = config 'diffview', cmd = { 'DiffviewOpen' } }
+  use('sindrets/diffview.nvim', { as = 'diffview', cmd = { 'DiffviewOpen' } })
 
-  use { 'andymass/vim-matchup', config = config 'matchup' }
+  use('andymass/vim-matchup', { as = 'matchup' })
 
-  use { 'wellle/targets.vim' }
+  use('wellle/targets.vim', {})
 
-  use { 'mg979/vim-visual-multi', keys = { { 'n', '<C-n>' } } }
+  use('mg979/vim-visual-multi', { keys = { { 'n', '<C-n>' } } })
 
-  use { 'machakann/vim-sandwich' }
+  use('machakann/vim-sandwich', {})
 
-  use { 'dstein64/vim-startuptime' }
+  use('dstein64/vim-startuptime', {})
 end
