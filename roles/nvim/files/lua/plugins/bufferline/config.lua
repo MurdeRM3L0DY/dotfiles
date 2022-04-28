@@ -1,4 +1,4 @@
-local K = require 'utils.keymap'
+local keymap = require 'utils.keymap'
 
 require('bufferline').setup {
   options = {
@@ -13,7 +13,7 @@ require('bufferline').setup {
   },
 }
 
-K.set('n', '<leader>bc', '<cmd>BufferLinePickClose<cr>')
-K.set('n', '<leader>j', '<cmd>BufferLineCycleNext<cr>')
-K.set('n', '<leader>k', '<cmd>BufferLineCyclePrev<cr>')
-K.set('n', '<leader>bb', '<cmd>BufferLinePick<cr>')
+keymap.set('n', '<leader>bc', '<cmd>BufferLinePickClose<cr>')
+keymap.set('n', '<leader>j', '<cmd>BufferLineCycleNext<cr>')
+keymap.set('n', '<leader>k', '<cmd>BufferLineCyclePrev<cr>')
+keymap.set('n', '<leader>bb', '<cmd>BufferLinePick<cr>')

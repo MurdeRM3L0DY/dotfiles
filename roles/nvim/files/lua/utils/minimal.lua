@@ -57,27 +57,36 @@ load_plugins = function()
   packer.startup(function(use)
     use { 'wbthomason/packer.nvim' }
 
+    -- use {
+    --   'noib3/nvim-compleet',
+    --   config = "require 'plugins.compleet.config'",
+    --   run = 'cargo build && ./install.sh',
+    -- }
+
+
+  use { 'hrsh7th/cmp-cmdline', after = { 'cmp' } }
+
     use {
-      'noib3/nvim-compleet',
-      config = "require 'plugins.compleet.config'",
-      run = 'cargo build && ./install.sh',
+      'hrsh7th/nvim-cmp',
+      as = 'cmp',
+      config = "require 'plugins.cmp.config'",
     }
   end)
 
-  if _G.packer_plugins then
-    vim.schedule(function()
+  vim.schedule(function()
+    if _G.packer_plugins then
       packer.clean()
-    end)
-  end
+    end
 
-  packer.install()
+    packer.install()
+  end)
 end
 
 local bootstrap = not uv.fs_stat(PACKER_ROOT) and packer_clone or packer_setup
 bootstrap()
 
-MINIMAL_PACKER_AUGROUP(function(autocmd, _)
-  autocmd('User', {
+MINIMAL_PACKER_AUGROUP(function(au)
+  au.create('User', {
     pattern = 'PackerComplete',
     callback = function()
       packer.compile()

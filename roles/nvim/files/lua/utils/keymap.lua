@@ -1,4 +1,4 @@
-local K = {}
+local keymap = {}
 -- local co = require 'lib.coroutine'()
 local co = coroutine
 
@@ -20,7 +20,7 @@ local set = function(defaults)
         return function()
           local key = callback()
           if key then
-            return K.t(key)
+            return keymap.t(key)
           end
         end
       end)(rhs)
@@ -77,14 +77,14 @@ local key = function(key, map, opts)
 
   for mode, rhs in pairs(map) do
     if type(rhs) == 'table' then
-      K.set(mode, key, rhs.rhs, vim.tbl_extend('force', opts, rhs.opts or {}))
+      keymap.set(mode, key, rhs.rhs, vim.tbl_extend('force', opts, rhs.opts or {}))
     else
-      K.set(mode, key, rhs, opts)
+      keymap.set(mode, key, rhs, opts)
     end
   end
 end
 
-return setmetatable(K, {
+return setmetatable(keymap, {
   __index = {
     key = key,
 
@@ -102,7 +102,7 @@ return setmetatable(K, {
     for _, mode in ipairs(modes) do
       for _, map in ipairs(mappings) do
         for lhs, rhs, opts in map:iter() do
-          K.set(mode, lhs, rhs, vim.tbl_extend('force', defaults or {}, opts))
+          keymap.set(mode, lhs, rhs, vim.tbl_extend('force', defaults or {}, opts))
         end
       end
     end

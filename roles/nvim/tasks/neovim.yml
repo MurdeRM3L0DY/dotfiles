@@ -7,22 +7,21 @@
   register: nvim_git
 
 - name: make distclean
-  become: true
   when: nvim_git.changed == true
   make:
     chdir: "{{ nvim_dest }}"
     target: distclean
 
 - name: make
-  become: true
   when: nvim_git.changed == true
   make:
     chdir: "{{ nvim_dest }}"
+    jobs: 8
     params:
       CMAKE_BUILD_TYPE: "Release"
+      CMAKE_INSTALL_PREFIX: "{{ ansible_env.HOME }}/.local/"
 
 - name: make install
-  become: true
   when: nvim_git.changed == true
   make:
     chdir: "{{ nvim_dest }}"

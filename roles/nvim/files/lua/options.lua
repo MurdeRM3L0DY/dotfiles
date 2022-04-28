@@ -5,7 +5,7 @@ opt.hidden = true
 opt.wrap = false
 opt.shortmess:append 'cI'
 opt.formatoptions:remove 'ro'
-opt.textwidth = 80
+-- opt.textwidth = 80
 opt.scrolloff = 8
 opt.swapfile = false
 opt.timeout = true

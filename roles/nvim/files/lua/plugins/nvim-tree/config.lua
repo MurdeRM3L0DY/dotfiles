@@ -2,7 +2,6 @@ local augroup = require 'utils.augroup'
 local NVIM_TREE_AUGROUP = augroup('NVIM_TREE_AUGROUP', { clear = true })
 
 require('nvim-tree').setup {
-  indent_markers = true,
   -- disables netrw completely
   disable_netrw = true,
   -- hijack netrw window on startup
@@ -13,13 +12,6 @@ require('nvim-tree').setup {
   ignore_ft_on_setup = {},
   -- opens the tree when changing/opening a new tab if the tree wasn't previously opened
   open_on_tab = false,
-  -- hijacks new directory buffers when they are opened.
-  update_to_buf_dir = {
-    -- enable the feature
-    enable = true,
-    -- allow to open the tree if it was previously closed
-    auto_open = true,
-  },
   -- hijack the cursor in the tree to put it at the start of the filename
   hijack_cursor = true,
   -- updates the root directory of the tree on `DirChanged` (when your run `:cd` usually)
@@ -30,7 +22,7 @@ require('nvim-tree').setup {
     enable = true,
     -- update the root directory of the tree to the one of the folder containing the file if the file is not under the current root directory
     -- only relevant when `update_focused_file.enable` is true
-    update_cwd = true,
+    update_cwd = false,
     -- list of buffer names / filetypes that will not update the cwd if the file isn't found under the current root directory
     -- only relevant when `update_focused_file.update_cwd` is true and `update_focused_file.enable` is true
     ignore_list = {},
@@ -82,8 +74,6 @@ require('nvim-tree').setup {
     height = 30,
     -- side of the tree, can be one of 'left' | 'right' | 'top' | 'bottom'
     side = 'left',
-    -- if true the tree will resize itself after opening a file
-    auto_resize = false,
     mappings = {
       -- custom only false will merge the list with the default mappings
       -- if true, it will only use your list to set the mappings

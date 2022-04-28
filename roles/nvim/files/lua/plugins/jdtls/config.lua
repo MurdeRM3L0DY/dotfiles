@@ -1,6 +1,8 @@
 local jdtls = require 'jdtls'
-local K = require 'utils.keymap'
+local keymap = require 'utils.keymap'
 local augroup = require 'utils.augroup'
+
+local JDTLS_AUGROUP = augroup('JDTLS_AUGROUP', { clear = true })
 
 local config = {}
 
@@ -37,12 +39,16 @@ config.settings = {
       },
     },
     configuration = {
-      -- runtimes = {
-      --   {
-      --     name = "JavaSE-11",
-      --     path = home .. "/.sdkman/candidates/java/11.0.12-open/",
-      --   },
-      -- },
+      runtimes = {
+        {
+          name = 'JavaSE-11',
+          path = ('%s/.zi/polaris/sdkman/candidates/java/11.0.12-open/'):format(os.getenv 'HOME'),
+        },
+        {
+          name = 'JavaSE-18',
+          path = ('%s/.zi/polaris/sdkman/candidates/java/18-open/'):format(os.getenv 'HOME'),
+        },
+      },
     },
   },
 }
@@ -54,19 +60,19 @@ config.on_attach = function(_, bufnr)
 
   local opts = { buffer = bufnr }
 
-  K.set('n', '<A-o>', function()
+  keymap.set('n', '<A-o>', function()
     jdtls.organize_imports()
   end, opts)
-  K.set('n', 'crc', function()
+  keymap.set('n', 'crc', function()
     jdtls.extract_constant()
   end, opts)
-  K.set('n', 'crv', function()
+  keymap.set('n', 'crv', function()
     jdtls.extract_variable()
   end, opts)
 
-  K.set('v', 'crc', "<ESC><CMD>lua require('jdtls').extract_constant(true)<CR>", opts)
-  K.set('v', 'crv', "<ESC><CMD>lua require('jdtls').extract_variable(true)<CR>", opts)
-  K.set('v', 'crm', "<ESC><CMD>lua require('jdtls').extract_method(true)<CR>", opts)
+  keymap.set('v', 'crc', "<ESC><CMD>lua require('jdtls').extract_constant(true)<CR>", opts)
+  keymap.set('v', 'crv', "<ESC><CMD>lua require('jdtls').extract_variable(true)<CR>", opts)
+  keymap.set('v', 'crm', "<ESC><CMD>lua require('jdtls').extract_method(true)<CR>", opts)
 end
 
 config.on_init = function(client, _)
@@ -97,20 +103,14 @@ config.init_options = {
 
 local ok, jdtls_server = require('nvim-lsp-installer.servers').get_server 'jdtls'
 if ok then
-  jdtls_server:on_ready(function()
-    config.cmd = jdtls_server:get_default_options().cmd
+  config.cmd = jdtls_server:get_default_options().cmd
 
-    augroup('JDTLS_AUGROUP', { clear = true })(function(autocmd, _)
-      autocmd({ 'FileType' }, {
-        pattern = 'java',
-        callback = function()
-          jdtls.start_or_attach(require('lsp.config').client_config(config))
-        end,
-      })
-    end)
+  JDTLS_AUGROUP(function(au)
+    au.create({ 'FileType' }, {
+      pattern = 'java',
+      callback = function(match)
+        jdtls.start_or_attach(require('lsp.config').make_config(config))
+      end,
+    })
   end)
-
-  if not jdtls_server:is_installed() then
-    jdtls_server:install()
-  end
 end

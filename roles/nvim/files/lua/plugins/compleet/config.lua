@@ -1,39 +1,39 @@
 local compleet = require 'compleet'
-local K = require 'utils.keymap'
+local keymap = require 'utils.keymap'
 
-compleet.setup {
-  ui = {
-    menu = {
-      border = {
-        -- style = 'single',
-        style = { '+', 'x' },
-      },
-    },
-    details = {
-      border = {
-        -- style = { '/', '-', '\\', '|' },
-        style = { '+', 'x' },
-        -- style = 'shadow',
-      },
-    },
-
-    hint = {
-      enable = false,
-    },
-  },
-  completion = {
-    while_deleting = true,
-  },
-  sources = {
-    lipsum = {
-      enable = false,
-    },
-    lsp = {
-      enable = false,
-      test = 'compleet',
-    },
-  },
-}
+-- compleet.setup {
+--   ui = {
+--     menu = {
+--       border = {
+--         -- style = 'single',
+--         style = { '+', 'x' },
+--       },
+--     },
+--     details = {
+--       border = {
+--         -- style = { '/', '-', '\\', '|' },
+--         style = { '+', 'x' },
+--         -- style = 'shadow',
+--       },
+--     },
+--
+--     hint = {
+--       enable = false,
+--     },
+--   },
+--   completion = {
+--     while_deleting = true,
+--   },
+--   sources = {
+--     lipsum = {
+--       enable = false,
+--     },
+--     lsp = {
+--       enable = true,
+--       test = '',
+--     },
+--   },
+-- }
 
 local tab = function()
   return (compleet.is_menu_open() and '<Plug>(compleet-next-completion)')
@@ -56,7 +56,7 @@ end
 
 local opts = { noremap = false }
 
-K.set('i', '<Tab>', tab, opts)
-K.set('i', '<S-Tab>', s_tab, opts)
-K.set('i', '<Right>', right, opts)
-K.set('i', '<CR>', cr, opts)
+keymap.set('i', '<Tab>', tab, opts)
+keymap.set('i', '<S-Tab>', s_tab, opts)
+keymap.set('i', '<Right>', right, opts)
+keymap.set('i', '<CR>', cr, opts)

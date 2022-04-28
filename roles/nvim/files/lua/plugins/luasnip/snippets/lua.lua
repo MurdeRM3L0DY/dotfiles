@@ -1,7 +1,5 @@
-local ls = require 'luasnip'
-local snip = ls.snippet
-local t = ls.text_node
+---@diagnostic disable:undefined-global
 
 return {
-  snip({ trig = 'text' }, { t { 'simple text' } }, {}),
+  -- s({ trig = 'text' }, { t { 'simple text' } }, {}),
 }

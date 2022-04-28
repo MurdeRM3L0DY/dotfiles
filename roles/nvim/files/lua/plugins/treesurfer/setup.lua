@@ -1,4 +1,4 @@
-local K = require 'utils.keymap'
+local keymap = require 'utils.keymap'
 
 local treesurfer = function()
   return require 'syntax-tree-surfer'
@@ -23,27 +23,27 @@ end
 -- end)
 
 -- NAVIGATION: Only change the keymap to your liking. I would not recommend changing anything about the .surf() parameters!
-K.set('x', 'J', function()
+keymap.set('x', 'J', function()
   treesurfer().surf('next', 'visual')
 end)
 
-K.set('x', 'K', function()
+keymap.set('x', 'K', function()
   treesurfer().surf('prev', 'visual')
 end)
 
-K.set('x', 'H', function()
+keymap.set('x', 'H', function()
   treesurfer().surf('parent', 'visual')
 end)
 
-K.set('x', 'L', function()
+keymap.set('x', 'L', function()
   treesurfer().surf('child', 'visual')
 end)
 
 -- SWAPPING WITH VISUAL SELECTION: Only change the keymap to your liking. Don't change the .surf() parameters!
-K.set('x', '<A-j>', function()
+keymap.set('x', '<A-j>', function()
   treesurfer().surf('next', 'visual', true)
 end)
 
-K.set('x', '<A-k>', function()
+keymap.set('x', '<A-k>', function()
   treesurfer().surf('prev', 'visual', true)
 end)

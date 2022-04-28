@@ -3,10 +3,10 @@ local codicons = require 'codicons'
 local symbols = require('codicons.extensions.completion_item_kind').symbols
 
 cmp.setup {
-  enabled = true,
+  -- enabled = false,
 
   experimental = {
-    ghost_text = false,
+    ghost_text = true,
   },
 
   snippet = {
@@ -39,26 +39,21 @@ cmp.setup {
       cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert },
       { 'i', 'c' }
     ),
-    ['<Down>'] = cmp.mapping(
-      cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Select },
-      { 'i', 'c' }
-    ),
-    ['<Up>'] = cmp.mapping(
-      cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Select },
-      { 'i', 'c' }
-    ),
     ['<C-Space>'] = cmp.mapping(function(fallback)
       local complete = not cmp.visible() and cmp.mapping.complete() or cmp.mapping.close()
+
       complete(fallback)
     end, { 'i', 'c' }),
     ['<Tab>'] = cmp.mapping(function(fallback)
       local complete_or_next = not cmp.visible() and cmp.mapping.complete()
-        or cmp.mapping.select_next_item()
+        or cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert }
+
       complete_or_next(fallback)
     end, { 'c' }),
     ['<S-Tab>'] = cmp.mapping(function(fallback)
       local complete_or_prev = not cmp.visible() and cmp.mapping.complete()
-        or cmp.mapping.select_prev_item()
+        or cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert }
+
       complete_or_prev(fallback)
     end, { 'c' }),
   },
@@ -66,7 +61,6 @@ cmp.setup {
   sources = cmp.config.sources({
     { name = 'nvim_lsp', max_item_count = 20 },
     { name = 'nvim_lsp_signature_help' },
-    { name = 'luasnip' },
   }, {
     { name = 'buffer', keyword_length = 2, max_item_count = 10 },
     { name = 'path' },
@@ -80,7 +74,6 @@ cmp.setup {
         ['nvim_lsp'] = '[LSP]',
         ['nvim_lsp_signature_help'] = '[SHELP]',
         ['buffer'] = '[BUF]',
-        ['luasnip'] = '[SNIP]',
         ['neorg'] = '[NORG]',
         ['path'] = '[PATH]',
       })[entry.source.name]
@@ -97,13 +90,5 @@ cmp.setup.cmdline(':', {
     { name = 'cmdline' },
   }, {
     { name = 'path' },
-  }),
-})
-
-cmp.setup.cmdline('/', {
-  sources = cmp.config.sources({
-    -- { name = 'buffer' },
-  }, {
-    { name = 'nvim_lsp_document_symbol' },
   }),
 })

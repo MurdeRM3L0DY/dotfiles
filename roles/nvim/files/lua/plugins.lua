@@ -8,9 +8,9 @@ local PACKER_DIR = fn.stdpath 'data' .. '/site/pack/packer/'
 local START_DIR = PACKER_DIR .. 'start/'
 local PACKER_ROOT = START_DIR .. 'packer.nvim'
 
-local packer, packer_setup, load_plugins
+local packer, packer_clone, packer_setup
 
-local packer_clone = function()
+packer_clone = function()
   local stderr = uv.new_pipe(false)
 
   uv.spawn('git', {
@@ -51,38 +51,22 @@ packer_setup = function()
     },
   }
 
-  load_plugins()
-end
-
-load_plugins = function()
-  if package.loaded['plugins.spec'] then
-    package.loaded['plugins.spec'] = nil
-  end
   packer.startup(require 'plugins.spec')
   -- packer.startup(require 'utils.minimal_init')
 
-  if _G.packer_plugins then
-    vim.schedule(function()
+  vim.schedule(function()
+    if _G.packer_plugins then
       packer.clean()
-    end)
-  end
-  packer.install()
+    end
+    packer.install()
+  end)
 end
 
 local bootstrap = not uv.fs_stat(PACKER_ROOT) and packer_clone or packer_setup
 bootstrap()
 
-PACKER_USER_AUGROUP(function(autocmd)
-  autocmd({ 'BufWritePost' }, {
-    pattern = 'lua/plugins/spec.lua',
-    callback = function()
-      pcall(function()
-        load_plugins()
-      end)
-    end,
-  })
-
-  autocmd('User', {
+PACKER_USER_AUGROUP(function(au)
+  au.create('User', {
     pattern = 'PackerComplete',
     callback = function()
       packer.compile()

@@ -1,29 +1,29 @@
-local uv = vim.loop
-local K = require 'utils.keymap'
+local keymap = require 'utils.keymap'
 
-K.set('n', '<F10>', function()
-  require('dap').continue()
+local dap = function()
+  return require 'dap'
+end
+
+local dapui = function()
+  return require 'dapui'
+end
+
+keymap.set('n', '<F10>', function()
+  dap().continue()
 end)
 
-K.set('n', '<F6>', function()
-  require('dap').toggle_breakpoint()
+keymap.set('n', '<F6>', function()
+  dap().toggle_breakpoint()
 end)
 
-K.set('n', '<F11>', function()
-  require('dap').step_over()
+keymap.set('n', '<F11>', function()
+  dap().step_over()
 end)
 
-K.set('n', '<leader>dh', function()
-  require('dapui').eval()
+keymap.set('n', '<leader>dh', function()
+  dapui().eval()
 end)
 
-K.set('n', '<F12>', function()
-  require('dapui').toggle()
+keymap.set('n', '<F12>', function()
+  dapui().toggle()
 end)
-
-vim.cmd [[
-  augroup dap
-    au!
-    au FileType dap-repl lua require('dap.ext.autocompl').attach()
-  augroup end
-]]

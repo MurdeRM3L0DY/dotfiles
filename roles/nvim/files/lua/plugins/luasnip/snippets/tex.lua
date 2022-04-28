@@ -1,18 +1,4 @@
-local ls = require 'luasnip'
-local snip = ls.snippet
-local t = ls.text_node
-local f = ls.function_node
-local c = ls.choice_node
-local sn = ls.snippet_node
-local i = ls.insert_node
-local d = ls.dynamic_node
-local fmta = require('luasnip.extras.fmt').fmta
-local ai = require 'luasnip.nodes.absolute_indexer'
-local rep = require('luasnip.extras').rep
-
--- snip({ trig = 'prf' }, {
---   c,
--- }, {})
+---@diagnostic disable:undefined-global
 
 local u = {}
 
@@ -66,7 +52,7 @@ end
 
 return {
   -- Endless list
-  snip({ trig = 'ls' }, {
+  s({ trig = 'ls' }, {
     t { '\\begin{itemize}', '\t\\item ' },
     i(1),
     d(2, u.rec_ls, {}),
@@ -75,7 +61,7 @@ return {
   }),
 
   -- proof tree
-  snip(
+  s(
     { trig = 'prf' },
     fmta(
       [[
@@ -93,7 +79,7 @@ return {
     {}
   ),
 
-  snip({ trig = 'f' }, {
+  s({ trig = 'f' }, {
     f(function(args, snip, user_args)
       P('snip', snip)
 

@@ -1,4 +1,4 @@
-local K = require 'utils.keymap'
+local keymap = require 'utils.keymap'
 
 require('nvim-treesitter.configs').setup {
   ensure_installed = {
@@ -27,7 +27,7 @@ require('nvim-treesitter.configs').setup {
     'dockerfile',
     'cpp',
     'nix',
-    'vim',
+    -- 'vim',
     'latex',
     'norg',
     'norg_meta',
@@ -135,6 +135,6 @@ require('nvim-treesitter.configs').setup {
   },
 }
 
-K.set('n', '<leader>th', '<cmd>TSHighlightCapturesUnderCursor<cr>')
-K.set('n', '<leader>tn', '<cmd>TSNodeUnderCursor<cr>')
-K.set('n', '<leader>pt', '<cmd>TSPlaygroundToggle<cr>')
+keymap.set('n', '<leader>th', '<cmd>TSHighlightCapturesUnderCursor<cr>')
+keymap.set('n', '<leader>tn', '<cmd>TSNodeUnderCursor<cr>')
+keymap.set('n', '<leader>pt', '<cmd>TSPlaygroundToggle<cr>')

@@ -1,4 +1,4 @@
-local K = require 'utils.keymap'
+local keymap = require 'utils.keymap'
 local g = vim.g
 
 local nvim_tree = function()
@@ -58,6 +58,6 @@ g.nvim_tree_icons = {
   },
 }
 
-K.set('n', '<leader>e', function()
+keymap.set('n', '<leader>e', function()
   nvim_tree().toggle()
 end)

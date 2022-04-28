@@ -13,13 +13,16 @@ local augroup = function(group, augroup_opts)
   }, {
     __call = function(self, callback)
       if self.id then
-        callback(function(event, create_opts)
-          create_opts.group = self.id
-          vim.api.nvim_create_autocmd(event, create_opts)
-        end, function(clear_opts)
-          clear_opts.group = self.id
-          vim.api.nvim_clear_autocmds(clear_opts)
-        end)
+        callback {
+          create = function(event, create_opts)
+            create_opts.group = self.id
+            vim.api.nvim_create_autocmd(event, create_opts)
+          end,
+          clear = function(clear_opts)
+            clear_opts.group = self.id
+            vim.api.nvim_clear_autocmds(clear_opts)
+          end,
+        }
       end
     end,
   })

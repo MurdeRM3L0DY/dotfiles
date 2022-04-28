@@ -1,5 +1,3 @@
-local K = require 'utils.keymap'
-
 local size = {
   horizontal = 15,
   vertical = vim.o.columns * 0.4,
@@ -11,5 +9,3 @@ require('toggleterm').setup {
   end,
   open_mapping = [[<C-\>]],
 }
-
-K.set('n', '<leader>tt', '<cmd>ToggleTermToggleAll<cr>')
