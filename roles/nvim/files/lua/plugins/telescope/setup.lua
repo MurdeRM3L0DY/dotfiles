@@ -12,20 +12,35 @@ local themes = function()
   return require 'telescope.themes'
 end
 
-local with_ivy = function(opts)
-  (opts or {}).borderchars = {
+local ivy = function(opts)
+  opts = opts or {}
+
+  opts.borderchars = {
     prompt = { '─', ' ', ' ', ' ', '─', '─', ' ', ' ' },
     results = { ' ' },
     preview = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
   }
-  return themes().get_ivy(opts or {})
+
+  return themes().get_ivy(opts)
+end
+
+local dropdown = function(opts)
+  opts = opts or {}
+
+  opts.borderchars = {
+    prompt = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
+    results = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
+    preview = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
+  }
+
+  return themes().get_dropdown(opts)
 end
 
 local find_files = function(opts)
   local find_command = { 'rg', '--files', '--ignore', '--hidden' }
   local defaults = { find_command = find_command }
 
-  builtin().find_files(with_ivy(vim.tbl_extend('force', defaults, opts)))
+  builtin().find_files(ivy(vim.tbl_extend('force', defaults, opts)))
 end
 
 keymap.set('n', '<leader>ff', function()
@@ -44,6 +59,10 @@ end)
 
 keymap.set('n', '<leader>fb', function()
   telescope().extensions.file_browser.file_browser()
+end)
+
+keymap.set('n', '<leader>bb', function()
+  builtin().buffers(dropdown())
 end)
 
 keymap.set('n', '<leader>cd', function()

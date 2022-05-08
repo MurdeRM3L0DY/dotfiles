@@ -4,6 +4,7 @@ require('nvim-treesitter.configs').setup {
   ensure_installed = {
     'c',
     'make',
+    'cmake',
     'lua',
     'bash',
     'query',
@@ -27,7 +28,7 @@ require('nvim-treesitter.configs').setup {
     'dockerfile',
     'cpp',
     'nix',
-    -- 'vim',
+    'vim',
     'latex',
     'norg',
     'norg_meta',

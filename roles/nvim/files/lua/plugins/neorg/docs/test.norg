@@ -16,19 +16,20 @@
   - [x] Done task yay
 
 * Heading 1
- ** Heading 2
-  *** Heading 3
-   **** Heading 4
-    ***** Heading 5
-      ****** Heading 6
-       ******* Heading 7
-               ---- wtf1
-               ----- nice kok
-               ----- doing stuff
-               ----- okay cool
-               ----- nice
-               --- wtf2
-               -- cool indent stuffs
+** Heading 2
+*** Heading 3
+**** Heading 4
+***** Heading 5
+****** Heading 6
+******* Heading 7
+        ---- wtf1
+        ----- nice kok
+        ----- doing stuff
+        ----- okay cool
+        ----- nice
+        --- wtf2
+        -- cool indent stuffs
+
 
 @table
 Column 1 | Column 2

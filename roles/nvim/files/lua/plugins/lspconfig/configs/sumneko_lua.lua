@@ -22,7 +22,7 @@ M[dots 'awesome'] = vim.tbl_extend('force', defaults, {
     Lua = {
       workspace = {
         library = {
-          '~/.config/awesome/',
+          -- '~/.config/awesome/',
           '/usr/local/share/awesome/lib/',
         },
       },

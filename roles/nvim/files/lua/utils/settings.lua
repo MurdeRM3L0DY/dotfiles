@@ -12,10 +12,10 @@ M.ui = {
     { '│', 'FloatBorder' },
   },
   signs = {
-    Error = '',
-    Warn = '',
+    Error = '',
+    Warn = '',
     Hint = '',
-    Info = '',
+    Info = '',
   },
 }
 

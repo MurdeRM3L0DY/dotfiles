@@ -45,25 +45,9 @@ return function(_use)
 
   use('milisims/nvim-luaref', {})
 
-  use('jbyuki/venn.nvim', { as = 'venn' })
-
-  use('nvim-neo-tree/neo-tree.nvim', {
-    as = 'neo-tree',
-    branch = 'v2.x',
-    module = { 'neo-tree' },
-  })
-
-  -- use('beauwilliams/focus.nvim', {
-  --   config = function()
-  --     require('focus').setup()
-  --   end,
-  -- })
-
-  use('MunifTanjim/nui.nvim', { module = { 'nui' } })
+  use('jbyuki/venn.nvim', {})
 
   use('rcarriga/nvim-notify', { as = 'notify' })
-
-  -- use('sunjon/stylish.nvim', { module = { 'stylish' } })
 
   use('kyazdani42/nvim-web-devicons', { module = { 'nvim-web-devicons' } })
 
@@ -79,17 +63,12 @@ return function(_use)
     config = [[vim.api.nvim_command 'colorscheme colorblind']],
   })
 
-  -- use(__local 'rust_lua', {
-  --   as = 'rust_lua',
+  use('rebelot/heirline.nvim', { as = 'heirline', after = { 'colorblind.nvim' } })
+
+  -- use('b0o/incline.nvim', {config = function()
+  --   require('incline').setup()
+  -- end
   -- })
-
-  -- 'noib3/nvim-compleet',
-  use(__local 'nvim-compleet', {
-    as = 'compleet',
-    run = './install.sh release',
-  })
-
-  use('rebelot/heirline.nvim', { as = 'heirline' })
 
   use('tami5/sqlite.lua', { module = { 'sqlite' } })
 
@@ -119,7 +98,7 @@ return function(_use)
     module = { telescope_ext 'file_browser' },
   })
 
-  use('ibhagwan/fzf-lua', { as = 'fzf-lua' })
+  use('ibhagwan/fzf-lua', { as = 'fzf-lua', opt = true })
 
   use('iamcco/markdown-preview.nvim', {
     run = 'cd app && yarn install',
@@ -202,11 +181,7 @@ return function(_use)
 
   use('nvim-neorg/neorg', { as = 'neorg' })
 
-  use('akinsho/nvim-bufferline.lua', { as = 'bufferline' })
-
-  use('akinsho/toggleterm.nvim', {
-    as = 'toggleterm',
-  })
+  use('akinsho/toggleterm.nvim', { as = 'toggleterm', cmd = { 'ToggleTerm' } })
 
   use('numToStr/Comment.nvim', { as = 'Comment' })
 
