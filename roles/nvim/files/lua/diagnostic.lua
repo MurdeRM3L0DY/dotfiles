@@ -1,6 +1,6 @@
 local ui = require('utils.settings').ui
 
-for t, icon in pairs(ui.signs) do
+for t, icon in pairs(ui.diagnostics) do
   local hl = 'DiagnosticSign' .. t
   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end

@@ -11,12 +11,17 @@ M.ui = {
     { '└', 'FloatBorder' },
     { '│', 'FloatBorder' },
   },
-  signs = {
+  diagnostics = {
     Error = '',
-    Warn = '',
-    Hint = '',
+    Warn = '',
+    Hint = '',
     Info = '',
   },
+  git = {
+    added = '', -- 
+    changed = '',
+    deleted = '' -- 
+  }
 }
 
 M.env = {

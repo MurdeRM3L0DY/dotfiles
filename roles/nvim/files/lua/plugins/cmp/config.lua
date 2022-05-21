@@ -60,6 +60,7 @@ cmp.setup {
 
   sources = cmp.config.sources({
     { name = 'nvim_lsp', max_item_count = 20 },
+    { name = 'luasnip' },
     { name = 'nvim_lsp_signature_help' },
   }, {
     { name = 'buffer', keyword_length = 2, max_item_count = 10 },
@@ -72,6 +73,7 @@ cmp.setup {
     format = function(entry, vim_item)
       vim_item.menu = ({
         ['nvim_lsp'] = '[LSP]',
+        ['luasnip'] = '[SNIP]',
         ['nvim_lsp_signature_help'] = '[SHELP]',
         ['buffer'] = '[BUF]',
         ['neorg'] = '[NORG]',

@@ -18,12 +18,8 @@ g.loaded_2html_plugin = 1
 g.did_load_filetypes = 0
 g.do_filetype_lua = 1
 
--- personal global namespace, cause' convenience :)
--- _G.melody = {}
-
 _G.P = function(...)
-  local objects = vim.tbl_map(vim.inspect, { ... })
-  print(unpack(objects))
+  return vim.pretty_print(...)
 end
 
 _G.RELOAD = function(...)

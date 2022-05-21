@@ -1,7 +1,7 @@
 require('fidget').setup {
-  -- window = {
-  --   relative = 'editor',
-  -- },
+  window = {
+    blend = 0,
+  },
   text = {
     spinner = 'triangle',
   },

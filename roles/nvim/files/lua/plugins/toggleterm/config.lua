@@ -4,8 +4,9 @@ local size = {
 }
 
 require('toggleterm').setup {
+  open_mapping = [[<C-\>]],
   size = function(term)
     return size[term.direction]
   end,
-  open_mapping = [[<C-\>]],
+  shade_terminals = false,
 }

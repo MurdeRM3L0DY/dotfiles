@@ -1,8 +1,9 @@
 local dap = require 'dap'
 local dapui = require 'dapui'
-local K = require 'utils.keymap'
+local keymap = require 'utils.keymap'
+local augroup = require 'utils.augroup'
 
-K.set('n', '<leader>m', function()
+keymap.set('n', '<leader>m', function()
   local session = dap.session()
   -- session:request('readMemory', {
   --   memoryReference = '',
@@ -72,7 +73,10 @@ dap.configurations.c = {
     end,
     cwd = '${workspaceFolder}',
     stopOnEntry = false,
-    args = {},
+    args = {
+      'istanze/input/in_1.txt',
+      'test.txt',
+    },
 
     -- if you change `runInTerminal` to true, you might need to change the yama/ptrace_scope setting:
     --
@@ -88,28 +92,14 @@ dap.configurations.c = {
   },
 }
 
-dap.configurations.asm = {
-  {
-    name = 'Launch `lldb`',
-    type = 'lldb',
-    request = 'launch',
-    program = function()
-      return vim.fn.input('Path to executable: ', vim.loop.cwd() .. '/', 'file')
-    end,
-    cwd = '${workspaceFolder}',
-    stopOnEntry = false,
-    args = {},
+dap.configurations.gas = dap.configurations.c
 
-    -- if you change `runInTerminal` to true, you might need to change the yama/ptrace_scope setting:
-    --
-    --    echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope
-    --
-    -- Otherwise you might get the following error:
-    --
-    --    Error on launch: Failed to attach to the target process
-    --
-    -- But you should be aware of the implications:
-    -- https://www.kernel.org/doc/html/latest/admin-guide/LSM/Yama.html
-    runInTerminal = false,
-  },
-}
+
+augroup('DAP_USER_AUGROUP', {})(function(au)
+  au.create({'Filetype'}, {
+    pattern = 'dap-repl',
+    callback = function(match)
+      require('dap.ext.autocompl').attach(match.buf)
+    end
+  })
+end)

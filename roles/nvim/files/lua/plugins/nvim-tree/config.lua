@@ -1,6 +1,3 @@
-local augroup = require 'utils.augroup'
-local NVIM_TREE_AUGROUP = augroup('NVIM_TREE_AUGROUP', { clear = true })
-
 require('nvim-tree').setup {
   -- disables netrw completely
   disable_netrw = true,
@@ -27,7 +24,52 @@ require('nvim-tree').setup {
     -- only relevant when `update_focused_file.update_cwd` is true and `update_focused_file.enable` is true
     ignore_list = {},
   },
+
+  respect_buf_cwd = true,
+  create_in_closed_folder = false,
   renderer = {
+    highlight_git = true,
+    highlight_opened_files = "none",
+    root_folder_modifier = ':~',
+    add_trailing = false,
+    icons = {
+      padding = ' ',
+      symlink_arrow = '➛',
+      show = {
+        file = true,
+        folder = true,
+        folder_arrow = false,
+      },
+      glyphs = {
+        default = '',
+        symlink = '',
+        git = {
+          unstaged = '',
+          staged = '',
+          unmerged = '',
+          renamed = '',
+          untracked = '',
+          deleted = '',
+          ignored = '',
+        },
+        folder = {
+          arrow_open = '',
+          arrow_closed = '',
+          default = '',
+          open = '',
+          empty = '',
+          empty_open = '',
+          symlink = '',
+          symlink_open = '',
+        },
+      },
+    },
+    special_files = {
+      ['README.md'] = 1,
+      ['Makefile'] = 1,
+      ['MAKEFILE'] = 1,
+    },
+
     indent_markers = {
       enable = true,
       -- icons = {
@@ -86,22 +128,3 @@ require('nvim-tree').setup {
     },
   },
 }
-
--- NVIM_TREE_AUGROUP(function(autocmd)
---   autocmd('BufEnter', {
---     nested = true,
---     callback = function()
---       local current_buf_name = vim.api.nvim_buf_get_name(0)
---       if
---         vim.api.nvim_win_get_number(0) == 1
---         and current_buf_name:match('NvimTree_' .. vim.api.nvim_win_get_tabpage(0))
---       then
---         -- print 'hi'
---         -- vim.api.nvim_win_close(0, true)
---       end
---     end,
---     -- command = 'if winnr("$") == 1 && bufname() == "NvimTree_" . tabpagenr() | quit | endif',
---   })
--- end)
---
--- vim.api.nvim_command [[autocmd BufEnter * ++nested if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif]]

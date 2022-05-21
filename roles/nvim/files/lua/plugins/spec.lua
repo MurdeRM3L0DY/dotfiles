@@ -45,6 +45,8 @@ return function(_use)
 
   use('milisims/nvim-luaref', {})
 
+  use('Shirk/vim-gas', {})
+
   use('jbyuki/venn.nvim', {})
 
   use('rcarriga/nvim-notify', { as = 'notify' })
@@ -60,15 +62,75 @@ return function(_use)
   use('rktjmp/lush.nvim', { module = { 'lush' } })
 
   use(__local 'colorblind.nvim', {
-    config = [[vim.api.nvim_command 'colorscheme colorblind']],
+    config = [[vim.cmd { cmd = 'colorscheme', args = { 'colorblind' }}]],
   })
 
-  use('rebelot/heirline.nvim', { as = 'heirline', after = { 'colorblind.nvim' } })
+  use('rebelot/heirline.nvim', { as = 'heirline' })
 
   -- use('b0o/incline.nvim', {config = function()
   --   require('incline').setup()
   -- end
   -- })
+  --
+  use(__local 'nvim-compleet', {
+    config = function()
+      -- require('compleet').setup {
+      --   ui = {
+      --     menu = {
+      --       -- Where to anchor the completion menu, either "cursor" or "match".
+      --       anchor = 'cursor',
+      --
+      --       -- Whether to automatically show the menu every time there are
+      --       -- completions available.
+      --       autoshow = true,
+      --
+      --       -- The maximum height (in rows) of the completion menu.
+      --       max_height = nil,
+      --
+      --       border = {
+      --         -- Whether to add a border to the completion menu's floating window.
+      --         enable = true,
+      --
+      --         -- Any of the style formats listed in `:h nvim_open_win`.
+      --         style = 'single',
+      --       },
+      --     },
+      --
+      --     details = {
+      --       border = {
+      --         -- Whether to add a border to the details's floating window.
+      --         enable = true,
+      --
+      --         -- Same as `ui.menu.border.style`.
+      --         style = {
+      --           '',
+      --           '',
+      --           '',
+      --           { ' ', 'CompleetDetails' },
+      --         },
+      --       },
+      --     },
+      --
+      --     hint = {
+      --       -- Whether to show completion hints.
+      --       enable = false,
+      --     },
+      --   },
+      --
+      --   completion = {
+      --     -- Whether to enable completion while deleting characters.
+      --     while_deleting = true,
+      --   },
+      --
+      --   sources = {
+      --     lsp = {
+      --       enable = false,
+      --       test = '',
+      --     },
+      --   },
+      -- }
+    end,
+  })
 
   use('tami5/sqlite.lua', { module = { 'sqlite' } })
 
@@ -101,7 +163,7 @@ return function(_use)
   use('ibhagwan/fzf-lua', { as = 'fzf-lua', opt = true })
 
   use('iamcco/markdown-preview.nvim', {
-    run = 'cd app && yarn install',
+    run = 'cd app && npm install',
     ft = { 'markdown' },
   })
 
@@ -114,9 +176,10 @@ return function(_use)
 
   use('ZhiyuanLck/smart-pairs', { as = 'pairs' })
 
-  -- use(__local 'nvim-cmp', { as = 'cmp' })
-  use('hrsh7th/nvim-cmp', { as = 'cmp' })
+  use(__local 'nvim-cmp', { as = 'cmp' })
+  -- use('hrsh7th/nvim-cmp', { as = 'cmp' })
   use('hrsh7th/cmp-nvim-lsp', { after = { 'cmp' }, module = { 'cmp_nvim_lsp' } })
+  use('saadparwaiz1/cmp_luasnip', { after = { 'cmp' } })
   use('hrsh7th/cmp-nvim-lsp-signature-help', { after = { 'cmp' } })
   use('hrsh7th/cmp-path', { after = { 'cmp' } })
   use('hrsh7th/cmp-cmdline', { after = { 'cmp' } })

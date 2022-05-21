@@ -20,6 +20,8 @@ opt.undofile = true
 opt.showmode = false
 opt.signcolumn = 'yes:1'
 opt.laststatus = 3
+-- opt.number = true
+-- opt.relativenumber = true
 
 vim.opt.fillchars:append {
   -- horiz = '━',
@@ -54,8 +56,6 @@ opt.diffopt:append {
   'iwhite',
   'vertical',
 }
--- opt.guicursor = { 'n-v-c-sm:block-Cursor/lCursor', 'i-ci-ve:ver25-Cursor/lCursor', 'r-cr-o:hor20' }
--- opt.guicursor = { 'n-i-v-c-sm:block', 'ci-ve:ver25', 'r-cr-o:hor20' }
 opt.shell = '/usr/bin/zsh'
 opt.lazyredraw = true
 

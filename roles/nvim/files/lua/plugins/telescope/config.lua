@@ -3,7 +3,14 @@ local actions = require 'telescope.actions'
 
 telescope.setup {
   defaults = {
-    file_ignore_patterns = { 'node_modules/', 'dist/', './git/', '.github/', '.next/', 'target/' },
+    file_ignore_patterns = {
+      'node_modules/',
+      'dist/',
+      '.git/',
+      '.github/',
+      '.next/',
+      'target/',
+    },
     borderchars = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
     preview = {
       treesitter = true,
