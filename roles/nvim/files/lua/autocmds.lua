@@ -1,9 +1,8 @@
-local augroup = require 'utils.augroup'
+local create_autocmd = vim.api.nvim_create_autocmd
 
-augroup('HIGHLIGHT_ON_YANK', { clear = true })(function(au)
-  au.create('TextYankPost', {
-    callback = function()
-      vim.highlight.on_yank { timeout = 150 }
-    end,
-  })
-end)
+create_autocmd('TextYankPost', {
+  callback = function()
+    vim.highlight.on_yank { timeout = 150, on_visual = false }
+  end,
+  desc = 'nvim/lua/autocmds.lua:3'
+})

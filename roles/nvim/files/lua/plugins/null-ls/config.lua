@@ -9,7 +9,7 @@ local b = null.builtins
 null.setup {
   debug = false,
 
-  debounce = 50,
+  debounce = 20,
 
   sources = {
     b.formatting.stylua.with {
@@ -41,7 +41,7 @@ null.setup {
       --   au.create({ 'BufWritePost' }, {
       --     buffer = bufnr,
       --     callback = function()
-      --       vim.lsp.buf.format()
+      --       vim.lsp.buf.format { buffer = bufnr }
       --     end,
       --   })
       -- end)

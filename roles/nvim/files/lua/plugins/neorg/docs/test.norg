@@ -9,6 +9,7 @@
 
 * \*This should be a bold italic text\*
 * \-This instead shuold be strikethrough\-
+* \-hello strikethrough\-
 * \_This should be underlined\_
 
 * Stuff to do
@@ -35,4 +36,21 @@
 Column 1 | Column 2
 -
 This is a new row | Separated by a horizontal line
+@end
+
+@code lua
+
+local function balls(hehe)
+  print('Huge balls', hehe)
+end
+
+@end
+
+@code c
+
+int main(void)
+{
+  return 0;
+}
+
 @end

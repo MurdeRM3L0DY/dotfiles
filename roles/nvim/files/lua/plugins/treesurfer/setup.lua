@@ -1,8 +1,8 @@
+local lazy = require 'utils.lazy'
 local keymap = require 'utils.keymap'
 
-local treesurfer = function()
-  return require 'syntax-tree-surfer'
-end
+---@module 'syntax-tree-surfer'
+local treesurfer = lazy.require 'syntax-tree-surfer'
 
 -- Normal Mode Swapping
 -- K.set('n', 'vd', function()
@@ -24,26 +24,26 @@ end
 
 -- NAVIGATION: Only change the keymap to your liking. I would not recommend changing anything about the .surf() parameters!
 keymap.set('x', 'J', function()
-  treesurfer().surf('next', 'visual')
+  treesurfer.surf('next', 'visual')
 end)
 
 keymap.set('x', 'K', function()
-  treesurfer().surf('prev', 'visual')
+  treesurfer.surf('prev', 'visual')
 end)
 
 keymap.set('x', 'H', function()
-  treesurfer().surf('parent', 'visual')
+  treesurfer.surf('parent', 'visual')
 end)
 
 keymap.set('x', 'L', function()
-  treesurfer().surf('child', 'visual')
+  treesurfer.surf('child', 'visual')
 end)
 
 -- SWAPPING WITH VISUAL SELECTION: Only change the keymap to your liking. Don't change the .surf() parameters!
 keymap.set('x', '<A-j>', function()
-  treesurfer().surf('next', 'visual', true)
+  treesurfer.surf('next', 'visual', true)
 end)
 
 keymap.set('x', '<A-k>', function()
-  treesurfer().surf('prev', 'visual', true)
+  treesurfer.surf('prev', 'visual', true)
 end)

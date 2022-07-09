@@ -5,6 +5,11 @@ local symbols = require('codicons.extensions.completion_item_kind').symbols
 cmp.setup {
   -- enabled = false,
 
+  performance = {
+    debounce = 20,
+    throttle = 10,
+  },
+
   experimental = {
     ghost_text = true,
   },

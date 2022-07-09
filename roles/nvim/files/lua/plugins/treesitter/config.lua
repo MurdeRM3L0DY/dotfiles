@@ -30,9 +30,6 @@ require('nvim-treesitter.configs').setup {
     'nix',
     'vim',
     'latex',
-    'norg',
-    'norg_meta',
-    'norg_table',
     'markdown',
   },
   highlight = {
@@ -75,7 +72,7 @@ require('nvim-treesitter.configs').setup {
   },
 
   matchup = {
-    enable = false, -- mandatory, false will disable the whole extension
+    enable = true, -- mandatory, false will disable the whole extension
   },
 
   textobjects = {

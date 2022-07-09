@@ -2,17 +2,11 @@ local augroup = require 'utils.augroup'
 local settings = require 'utils.settings'
 
 local heirline = require 'heirline'
+local heir_conds = require 'heirline.conditions'
+local heir_utils = require 'heirline.utils'
 local colorblind = require 'colorblind.theme'
 
 local palette = colorblind.Colorblind.lush
-
-augroup('HEIRLINE_AUGROUP', {})(function(au)
-  au.create({ 'ColorScheme' }, {
-    callback = function()
-      heirline.reset_highlights()
-    end,
-  })
-end)
 
 local sep = {
   vertical_bar = '┃',
@@ -36,9 +30,40 @@ local sep = {
   circle = '●',
 }
 
+local vim = _G.vim
+local string = _G.string
+
+local api = vim.api
+local bo = vim.bo
+
+local str_find = string.find
+local str_sub = string.sub
+local str_match = string.match
+local str_rep = string.rep
+
+local nvim_get_mode = api.nvim_get_mode
+local nvim_buf_get_name = api.nvim_buf_get_name
+local get_diagnostic = vim.diagnostic.get
+local fnamemodify = vim.fn.fnamemodify
+local cwd = vim.loop.cwd
+
+augroup('HEIRLINE_AUGROUP', {})(function(au)
+  au.create({ 'ColorScheme' }, {
+    callback = function()
+      heirline.reset_highlights()
+    end,
+  })
+end)
+
+local setup_workspace = function(self)
+  self.stlbufname = nvim_buf_get_name(0)
+  self.stlbuftype = bo.buftype
+  self.stlcwd = cwd()
+end
+
 local StatusLine = {
   init = function(self)
-    self.stlmode = vim.api.nvim_get_mode().mode
+    self.stlmode = nvim_get_mode().mode
   end,
   hl = {
     bold = true,
@@ -48,143 +73,143 @@ local StatusLine = {
     stlmodemap = {
       ['n'] = {
         text = 'NORMAL',
-        hl = { fg = palette.catppuccin.black2.hex, bg = palette.catppuccin.blue.hex },
+        hl = { fg = palette.catppuccin.base.hex, bg = palette.catppuccin.blue.hex },
       },
       ['no'] = {
         text = 'O-PENDING',
-        hl = { fg = '', bg = '' },
+        hl = { fg = palette.catppuccin.base.hex, bg = palette.catppuccin.blue.hex },
       },
       ['nov'] = {
         text = 'O-PENDING',
-        hl = { fg = '', bg = '' },
+        hl = { fg = palette.catppuccin.base.hex, bg = palette.catppuccin.blue.hex },
       },
       ['noV'] = {
         text = 'O-PENDING',
-        hl = { fg = '', bg = '' },
+        hl = { fg = palette.catppuccin.base.hex, bg = palette.catppuccin.blue.hex },
       },
       ['no'] = {
         text = 'O-PENDING',
-        hl = { fg = '', bg = '' },
+        hl = { fg = palette.catppuccin.base.hex, bg = palette.catppuccin.blue.hex },
       },
       ['niI'] = {
         text = 'I-NORMAL',
-        hl = { fg = '', bg = '' },
+        hl = { fg = palette.catppuccin.base.hex, bg = palette.catppuccin.blue.hex },
       },
       ['niR'] = {
         text = 'R-NORMAL',
-        hl = { fg = '', bg = '' },
+        hl = { fg = palette.catppuccin.base.hex, bg = palette.catppuccin.blue.hex },
       },
       ['niV'] = {
         text = 'VR-NORMAL',
-        hl = { fg = '', bg = '' },
+        hl = { fg = palette.catppuccin.base.hex, bg = palette.catppuccin.blue.hex },
       },
       ['nt'] = {
         text = 'T-NORMAL',
-        hl = { fg = palette.catppuccin.black2.hex, bg = palette.catppuccin.red.hex },
+        hl = { fg = palette.catppuccin.base.hex, bg = palette.catppuccin.blue.hex },
       },
       ['v'] = {
         text = 'VISUAL',
-        hl = { fg = palette.catppuccin.black2.hex, bg = palette.catppuccin.mauve.hex },
+        hl = { fg = palette.catppuccin.base.hex, bg = palette.catppuccin.mauve.hex },
       },
       ['vs'] = {
         text = 'V-SELECT',
-        hl = { fg = palette.catppuccin.black2.hex, bg = palette.catppuccin.mauve.hex },
+        hl = { fg = palette.catppuccin.base.hex, bg = palette.catppuccin.mauve.hex },
       },
       ['V'] = {
         text = 'V-LINE',
-        hl = { fg = palette.catppuccin.black2.hex, bg = palette.catppuccin.mauve.hex },
+        hl = { fg = palette.catppuccin.base.hex, bg = palette.catppuccin.mauve.hex },
       },
       ['Vs'] = {
         text = 'VL-SELECT',
-        hl = { fg = palette.catppuccin.black2.hex, bg = palette.catppuccin.mauve.hex },
+        hl = { fg = palette.catppuccin.base.hex, bg = palette.catppuccin.mauve.hex },
       },
       [''] = {
         text = 'V-BLOCK',
-        hl = { fg = palette.catppuccin.black2.hex, bg = palette.catppuccin.mauve.hex },
+        hl = { fg = palette.catppuccin.base.hex, bg = palette.catppuccin.mauve.hex },
       },
       ['s'] = {
         text = 'VB-SELECT',
-        hl = { fg = palette.catppuccin.black2.hex, bg = palette.catppuccin.mauve.hex },
+        hl = { fg = palette.catppuccin.base.hex, bg = palette.catppuccin.mauve.hex },
       },
       ['s'] = {
         text = 'SELECT',
-        hl = { fg = '', bg = '' },
+        hl = { fg = palette.catppuccin.base.hex, bg = palette.catppuccin.lavender.hex },
       },
       ['S'] = {
         text = 'S-LINE',
-        hl = { fg = '', bg = '' },
+        hl = { fg = palette.catppuccin.base.hex, bg = palette.catppuccin.lavender.hex },
       },
       [''] = {
         text = 'S-BLOCK',
-        hl = { fg = '', bg = '' },
+        hl = { fg = palette.catppuccin.base.hex, bg = palette.catppuccin.lavender.hex },
       },
       ['i'] = {
         text = 'INSERT',
-        hl = { fg = palette.catppuccin.black2.hex, bg = palette.catppuccin.lavender.hex },
+        hl = { fg = palette.catppuccin.base.hex, bg = palette.catppuccin.green.hex },
       },
       ['ic'] = {
         text = 'INSERT',
-        hl = { fg = palette.catppuccin.black2.hex, bg = palette.catppuccin.lavender.hex },
+        hl = { fg = palette.catppuccin.base.hex, bg = palette.catppuccin.green.hex },
       },
       ['ix'] = {
         text = 'INSERT',
-        hl = { fg = palette.catppuccin.black2.hex, bg = palette.catppuccin.lavender.hex },
+        hl = { fg = palette.catppuccin.base.hex, bg = palette.catppuccin.green.hex },
       },
       ['R'] = {
         text = 'REPLACE',
-        hl = { fg = '', bg = '' },
+        hl = { fg = palette.catppuccin.base.hex, bg = palette.catppuccin.red.hex },
       },
       ['Rc'] = {
         text = 'REPLACE',
-        hl = { fg = '', bg = '' },
+        hl = { fg = palette.catppuccin.base.hex, bg = palette.catppuccin.red.hex },
       },
       ['Rv'] = {
         text = 'V-REPLACE',
-        hl = { fg = '', bg = '' },
+        hl = { fg = palette.catppuccin.base.hex, bg = palette.catppuccin.red.hex },
       },
       ['Rx'] = {
         text = 'REPLACE',
-        hl = { fg = '', bg = '' },
+        hl = { fg = palette.catppuccin.base.hex, bg = palette.catppuccin.red.hex },
       },
       ['Rvc'] = {
         text = 'V-REPLACE',
-        hl = { fg = '', bg = '' },
+        hl = { fg = palette.catppuccin.base.hex, bg = palette.catppuccin.red.hex },
       },
       ['Rvx'] = {
         text = 'V-REPLACE',
-        hl = { fg = '', bg = '' },
+        hl = { fg = palette.catppuccin.base.hex, bg = palette.catppuccin.red.hex },
       },
       ['c'] = {
         text = 'COMMAND',
-        hl = { fg = palette.catppuccin.black2.hex, bg = palette.colorblind.red.hex },
+        hl = { fg = palette.catppuccin.base.hex, bg = palette.catppuccin.peach.hex },
       },
       ['cv'] = {
         text = 'EX',
-        hl = { fg = '', bg = '' },
+        hl = { fg = palette.catppuccin.base.hex, bg = palette.catppuccin.peach.hex },
       },
       ['ce'] = {
         text = 'EX',
-        hl = { fg = '', bg = '' },
+        hl = { fg = palette.catppuccin.base.hex, bg = palette.catppuccin.peach.hex },
       },
       ['r'] = {
         text = 'HIT-ENTER',
-        hl = { fg = '', bg = '' },
+        hl = { fg = palette.catppuccin.base.hex, bg = palette.colorblind.blue.hex },
       },
       ['rm'] = {
         text = 'MORE',
-        hl = { fg = '', bg = '' },
+        hl = { fg = palette.catppuccin.base.hex, bg = palette.colorblind.blue.hex },
       },
       ['r?'] = {
         text = 'CONFIRM',
-        hl = { fg = '', bg = '' },
+        hl = { fg = palette.catppuccin.base.hex, bg = palette.colorblind.blue.hex },
       },
       ['!'] = {
         text = 'SHELL',
-        hl = { fg = '', bg = '' },
+        hl = { fg = palette.catppuccin.base.hex, bg = palette.colorblind.red.hex },
       },
       ['t'] = {
         text = 'TERMINAL',
-        hl = { fg = palette.catppuccin.black2.hex, bg = palette.catppuccin.red.hex },
+        hl = { fg = palette.catppuccin.base.hex, bg = palette.colorblind.red.hex },
       },
     },
   },
@@ -199,7 +224,7 @@ local Space = setmetatable({
 }, {
   __call = function(_, count)
     return {
-      provider = (' '):rep(count),
+      provider = str_rep(' ', count),
     }
   end,
 })
@@ -214,6 +239,7 @@ local ViMode = {
     provider = sep.left_rounded,
   },
   {
+    -- update = { 'ModeChanged' },
     hl = function(self)
       return self.stlmodemap[self.stlmode].hl
     end,
@@ -234,14 +260,14 @@ local ViMode = {
 local Git = {
   {
     hl = {
-      fg = palette.catppuccin.black2.hex,
+      fg = palette.catppuccin.base.hex,
     },
     provider = sep.left_rounded,
   },
 
   {
     hl = {
-      bg = palette.catppuccin.black2.hex,
+      bg = palette.catppuccin.base.hex,
     },
 
     {
@@ -257,7 +283,7 @@ local Git = {
 
         {
           hl = {
-            fg = palette.catppuccin.gray1.hex,
+            fg = palette.catppuccin.subtext0.hex,
           },
           provider = function(self)
             return self.stlgitstatus.head
@@ -319,28 +345,29 @@ local Git = {
 
   {
     hl = {
-      fg = palette.catppuccin.black2.hex,
+      fg = palette.catppuccin.base.hex,
     },
     provider = sep.right_rounded,
   },
 }
 
 local Diagnostics = {
+  update = { 'DiagnosticChanged' },
   {
     hl = {
-      fg = palette.catppuccin.black2.hex,
+      fg = palette.catppuccin.base.hex,
     },
     provider = sep.left_rounded,
   },
 
   {
     hl = {
-      bg = palette.catppuccin.black2.hex,
+      bg = palette.catppuccin.base.hex,
     },
 
     {
       condition = function(self)
-        self.stldiagnostics = vim.diagnostic.get(0)
+        self.stldiagnostics = get_diagnostic(0)
         return #self.stldiagnostics > 0
       end,
       init = function(self)
@@ -349,10 +376,10 @@ local Diagnostics = {
           count[diagnostic.severity] = count[diagnostic.severity] + 1
         end
 
-        self.stldiagnosticserror = count[vim.diagnostic.severity.ERROR]
-        self.stldiagnosticswarn = count[vim.diagnostic.severity.WARN]
-        self.stldiagnosticsinfo = count[vim.diagnostic.severity.INFO]
-        self.stldiagnosticshint = count[vim.diagnostic.severity.HINT]
+        self.stldiagnosticserror = count[1]
+        self.stldiagnosticswarn = count[2]
+        self.stldiagnosticsinfo = count[3]
+        self.stldiagnosticshint = count[4]
       end,
 
       {
@@ -436,7 +463,7 @@ local Diagnostics = {
 
   {
     hl = {
-      fg = palette.catppuccin.black2.hex,
+      fg = palette.catppuccin.base.hex,
     },
     provider = sep.right_rounded,
   },
@@ -445,100 +472,53 @@ local Diagnostics = {
 local Workspace = {
   {
     hl = {
-      fg = palette.catppuccin.black2.hex,
+      fg = palette.catppuccin.base.hex,
     },
     provider = sep.left_rounded,
   },
 
   {
-    init = function(self)
-      self.stlbuftype = vim.bo.buftype
-      self.stlcwd = vim.loop.cwd()
-      self.stlbufname = vim.api.nvim_buf_get_name(0)
-    end,
     hl = {
-      bg = palette.catppuccin.black2.hex,
-      fg = palette.catppuccin.gray1.hex,
+      bg = palette.catppuccin.base.hex,
+      fg = palette.catppuccin.subtext0.hex,
     },
+    init = function(self)
+      setup_workspace(self)
+    end,
 
     {
+      update = { 'TermEnter', 'TermLeave' },
       condition = function(self)
         return self.stlbuftype == 'terminal'
       end,
       provider = 'term://',
     },
     {
+      -- update = { 'DirChanged' },
       hl = {
         fg = palette.colorblind.blue.hex,
       },
       provider = function(self)
-        return vim.fn.fnamemodify(self.stlcwd, ':~')
+        return fnamemodify(self.stlcwd, ':~')
       end,
     },
 
     {
-      condition = function(self)
-        return self.stlbuftype == ''
-      end,
-      init = function(self)
-        if self.stlcwd == '/' then
-          self.stlfilepath = self.stlbufname:sub(2, -1)
-        else
-          -- doesn't work in certain directories. Not sure why.'
-          -- self.stlfilepath = self.stlbufname:gsub(self.stlcwd, '')
-
-          self.stlfilepath = self.stlbufname:sub(#self.stlcwd + 1, -1)
-        end
-      end,
-
-      {
-        provider = function(self)
-          return self.stlfilepath
-        end,
-      },
-      {
-        condition = function()
-          return not vim.bo.readonly
-        end,
-
-        { provider = '[' },
-        {
-          condition = function()
-            return vim.bo.modified
-          end,
-          hl = {
-            fg = palette.catppuccin.flamingo.hex,
-          },
-          provider = '+',
-        },
-        { provider = ']' },
-      },
-    },
-
-    {
+      update = { 'TermEnter', 'TermLeave' },
       condition = function(self)
         return self.stlbuftype == 'terminal'
       end,
       provider = function(self)
-        local pattern = '//[%d%p]+' .. vim.o.shell .. '[%p%w]+'
-        return self.stlbufname:match(pattern)
-      end,
-    },
+        local pattern = '//[%d%p]+' .. vim.o.shell .. '[%p%w]+$'
 
-    {
-      condition = function(self)
-        return self.stlbuftype == 'help'
-      end,
-
-      provider = function(self)
-        return vim.fn.fnamemodify(self.stlbufname, ':~')
+        return str_match(self.stlbufname, pattern)
       end,
     },
   },
 
   {
     hl = {
-      fg = palette.catppuccin.black2.hex,
+      fg = palette.catppuccin.base.hex,
     },
     provider = sep.right_rounded,
   },
@@ -547,22 +527,23 @@ local Workspace = {
 local FileType = {
   {
     hl = {
-      fg = palette.catppuccin.black2.hex,
+      fg = palette.catppuccin.base.hex,
     },
     provider = sep.left_rounded,
   },
   {
+    update = { 'DirChanged', 'BufEnter', 'BufLeave', 'BufWinEnter', 'BufWinLeave' },
     hl = {
-      fg = palette.catppuccin.gray1.hex,
-      bg = palette.catppuccin.black2.hex,
+      fg = palette.catppuccin.subtext0.hex,
+      bg = palette.catppuccin.base.hex,
     },
     provider = function()
-      return vim.bo.filetype
+      return bo.filetype
     end,
   },
   {
     hl = {
-      fg = palette.catppuccin.black2.hex,
+      fg = palette.catppuccin.base.hex,
     },
     provider = sep.right_rounded,
   },
@@ -607,4 +588,86 @@ table.insert(StatusLine, {
   Location,
 })
 
-heirline.setup(StatusLine)
+local WinBar = {
+  init = heir_utils.pick_child_on_condition,
+  hl = {
+    bold = true,
+    italic = true,
+  },
+  {
+    condition = function()
+      return heir_conds.buffer_matches {
+        buftype = { 'nofile', 'prompt', 'help', 'quickfix', 'terminal' },
+        filetype = { 'fugitive', 'NvimTree', 'packer' },
+      }
+    end,
+    init = function()
+      vim.opt_local.winbar = nil
+    end,
+  },
+}
+
+local FileName = {
+  condition = function(self)
+    setup_workspace(self)
+    return self.stlbuftype == ''
+  end,
+
+  {
+    hl = {
+      fg = palette.catppuccin.base.hex,
+    },
+    provider = sep.left_rounded,
+  },
+  {
+    hl = {
+      bg = palette.catppuccin.base.hex,
+      fg = palette.catppuccin.subtext0.hex,
+    },
+    {
+      update = { 'DirChanged', 'BufEnter', 'BufLeave', 'BufWinEnter', 'BufWinLeave' },
+      provider = function(self)
+        if str_find(self.stlbufname, self.stlcwd, 1, true) then
+          local offset = #self.stlcwd
+          if self.stlcwd == '/' then
+            offset = offset - 1
+          end
+          return str_sub(self.stlbufname, offset + 2, -1)
+        elseif self.stlbufname ~= '' then
+          return fnamemodify(self.stlbufname, ':~')
+        else
+          return ''
+        end
+      end,
+    },
+    {
+      condition = function()
+        return not bo.readonly
+      end,
+
+      { provider = '[' },
+      {
+        condition = function()
+          return bo.modified
+        end,
+        hl = {
+          fg = palette.catppuccin.flamingo.hex,
+        },
+        provider = '+',
+      },
+      { provider = ']' },
+    },
+  },
+  {
+    hl = {
+      fg = palette.catppuccin.base.hex,
+    },
+    provider = sep.right_rounded,
+  },
+}
+
+table.insert(WinBar, {
+  FileName,
+})
+
+heirline.setup(StatusLine, WinBar)

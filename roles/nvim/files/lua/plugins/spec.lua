@@ -22,246 +22,154 @@ local telescope_ext = function(ext)
 end
 
 return function(_use)
-  local use = function(name, opts)
-    opts = opts or {}
-
-    if opts.as then
-      opts.setup = setup(opts.as)
-      opts.config = config(opts.as)
+  local use = function(spec)
+    if spec.as then
+      spec.setup = setup(spec.as)
+      spec.config = config(spec.as)
     end
 
-    _use(vim.tbl_extend('error', { name }, opts))
+    _use(spec)
   end
 
-  use('wbthomason/packer.nvim', {})
+  use { 'wbthomason/packer.nvim' }
 
-  use('lewis6991/impatient.nvim', {})
+  use { 'nvim-lua/plenary.nvim', module = { 'plenary' } }
 
-  use('nvim-lua/plenary.nvim', { module = { 'plenary' } })
+  use { 'tpope/vim-scriptease' }
 
-  use('tpope/vim-scriptease', {})
+  use { 'nanotee/luv-vimdocs' }
 
-  use('nanotee/luv-vimdocs', {})
+  use { 'milisims/nvim-luaref' }
 
-  use('milisims/nvim-luaref', {})
+  use { 'jbyuki/venn.nvim' }
 
-  use('Shirk/vim-gas', {})
+  use { 'rcarriga/nvim-notify', as = 'notify' }
 
-  use('jbyuki/venn.nvim', {})
+  use { 'kyazdani42/nvim-web-devicons', module = { 'nvim-web-devicons' } }
 
-  use('rcarriga/nvim-notify', { as = 'notify' })
+  use { 'yamatsum/nvim-nonicons', after = { 'nvim-web-devicons' } }
 
-  use('kyazdani42/nvim-web-devicons', { module = { 'nvim-web-devicons' } })
+  use { 'mortepau/codicons.nvim', module = { 'codicons' } }
 
-  use('yamatsum/nvim-nonicons', { after = { 'nvim-web-devicons' } })
+  use { 'rktjmp/shipwright.nvim', module = { 'shipwright' } }
 
-  use('mortepau/codicons.nvim', { module = { 'codicons' } })
+  use { 'rktjmp/lush.nvim', module = { 'lush' } }
 
-  use('rktjmp/shipwright.nvim', { module = { 'shipwright' } })
+  use { 'tpope/vim-fugitive' }
 
-  use('rktjmp/lush.nvim', { module = { 'lush' } })
-
-  use(__local 'colorblind.nvim', {
+  use {
+    __local 'colorblind.nvim',
     config = [[vim.cmd { cmd = 'colorscheme', args = { 'colorblind' }}]],
-  })
+  }
 
-  use('rebelot/heirline.nvim', { as = 'heirline' })
+  use { 'rebelot/heirline.nvim', as = 'heirline', commit = '41d2bd0',  --[[ commit = '60d92a6' ]] }
 
-  -- use('b0o/incline.nvim', {config = function()
-  --   require('incline').setup()
-  -- end
-  -- })
-  --
-  use(__local 'nvim-compleet', {
-    config = function()
-      -- require('compleet').setup {
-      --   ui = {
-      --     menu = {
-      --       -- Where to anchor the completion menu, either "cursor" or "match".
-      --       anchor = 'cursor',
-      --
-      --       -- Whether to automatically show the menu every time there are
-      --       -- completions available.
-      --       autoshow = true,
-      --
-      --       -- The maximum height (in rows) of the completion menu.
-      --       max_height = nil,
-      --
-      --       border = {
-      --         -- Whether to add a border to the completion menu's floating window.
-      --         enable = true,
-      --
-      --         -- Any of the style formats listed in `:h nvim_open_win`.
-      --         style = 'single',
-      --       },
-      --     },
-      --
-      --     details = {
-      --       border = {
-      --         -- Whether to add a border to the details's floating window.
-      --         enable = true,
-      --
-      --         -- Same as `ui.menu.border.style`.
-      --         style = {
-      --           '',
-      --           '',
-      --           '',
-      --           { ' ', 'CompleetDetails' },
-      --         },
-      --       },
-      --     },
-      --
-      --     hint = {
-      --       -- Whether to show completion hints.
-      --       enable = false,
-      --     },
-      --   },
-      --
-      --   completion = {
-      --     -- Whether to enable completion while deleting characters.
-      --     while_deleting = true,
-      --   },
-      --
-      --   sources = {
-      --     lsp = {
-      --       enable = false,
-      --       test = '',
-      --     },
-      --   },
-      -- }
-    end,
-  })
+  use { 'tami5/sqlite.lua', module = { 'sqlite' } }
 
-  use('tami5/sqlite.lua', { module = { 'sqlite' } })
+  use { 'kevinhwang91/promise-async', module = { 'promise', 'async' } }
 
-  use('romgrk/fzy-lua-native', {
-    run = 'make',
-    module = { 'fzy-lua-native' },
-  })
+  use { 'romgrk/fzy-lua-native', run = 'make', module = { 'fzy-lua-native' } }
 
-  use('willthbill/opener.nvim', {
-    as = 'opener',
-    module = { telescope_ext 'opener' },
-  })
+  use { 'willthbill/opener.nvim', as = 'opener', module = { telescope_ext 'opener' } }
 
-  use('folke/lua-dev.nvim', { module = { 'lua-dev' } })
+  use { 'phaazon/hop.nvim', as = 'hop', module = { 'hop' } }
 
-  use('nvim-telescope/telescope.nvim', {
-    as = 'telescope',
-    module = { 'telescope' },
-  })
+  use { 'folke/lua-dev.nvim', module = { 'lua-dev' } }
 
-  use('nvim-telescope/telescope-fzf-native.nvim', {
+  use { 'nvim-telescope/telescope.nvim', as = 'telescope', module = { 'telescope' } }
+
+  use {
+    'nvim-telescope/telescope-fzf-native.nvim',
     module = { 'fzf_lib', telescope_ext 'fzf' },
     run = 'make',
-  })
+  }
 
-  use('nvim-telescope/telescope-file-browser.nvim', {
+  use {
+    'nvim-telescope/telescope-file-browser.nvim',
     module = { telescope_ext 'file_browser' },
-  })
+  }
 
-  use('ibhagwan/fzf-lua', { as = 'fzf-lua', opt = true })
+  use { 'ibhagwan/fzf-lua', as = 'fzf-lua', module = { 'fzf-lua' } }
 
-  use('iamcco/markdown-preview.nvim', {
+  use {
+    'iamcco/markdown-preview.nvim',
     run = 'cd app && npm install',
     ft = { 'markdown' },
-  })
+  }
 
-  use('lervag/vimtex', { ft = { 'tex' } })
+  use { 'lervag/vimtex', ft = { 'tex' } }
 
-  use('kyazdani42/nvim-tree.lua', {
-    as = 'nvim-tree',
-    module = { 'nvim-tree' },
-  })
+  use { 'kyazdani42/nvim-tree.lua', as = 'nvim-tree', module = { 'nvim-tree' } }
 
-  use('ZhiyuanLck/smart-pairs', { as = 'pairs' })
+  use { 'ZhiyuanLck/smart-pairs', as = 'pairs' }
 
-  use(__local 'nvim-cmp', { as = 'cmp' })
-  -- use('hrsh7th/nvim-cmp', { as = 'cmp' })
-  use('hrsh7th/cmp-nvim-lsp', { after = { 'cmp' }, module = { 'cmp_nvim_lsp' } })
-  use('saadparwaiz1/cmp_luasnip', { after = { 'cmp' } })
-  use('hrsh7th/cmp-nvim-lsp-signature-help', { after = { 'cmp' } })
-  use('hrsh7th/cmp-path', { after = { 'cmp' } })
-  use('hrsh7th/cmp-cmdline', { after = { 'cmp' } })
-  use('hrsh7th/cmp-buffer', { after = { 'cmp' } })
+  use { 'kylechui/nvim-surround', as = 'surround' }
 
-  use('L3MON4D3/LuaSnip', {
-    as = 'luasnip',
-    module = { 'luasnip' },
-  })
+  use { 'hrsh7th/nvim-cmp', as = 'cmp' }
+  use { 'hrsh7th/cmp-nvim-lsp', after = { 'cmp' }, module = { 'cmp_nvim_lsp' } }
+  use { 'saadparwaiz1/cmp_luasnip', after = { 'cmp' } }
+  use { 'hrsh7th/cmp-nvim-lsp-signature-help', after = { 'cmp' } }
+  use { 'hrsh7th/cmp-path', after = { 'cmp' } }
+  use { 'hrsh7th/cmp-cmdline', after = { 'cmp' } }
+  use { 'hrsh7th/cmp-buffer', after = { 'cmp' } }
 
-  use('neovim/nvim-lspconfig', { as = 'lspconfig' })
+  use { 'L3MON4D3/LuaSnip', as = 'luasnip', module = { 'luasnip' } }
 
-  use('williamboman/nvim-lsp-installer', {
-    module = { 'nvim-lsp-installer' },
-  })
+  use { 'neovim/nvim-lspconfig', as = 'lspconfig' }
 
-  use('j-hui/fidget.nvim', { as = 'fidget' })
+  use { 'williamboman/nvim-lsp-installer', module = { 'nvim-lsp-installer' } }
 
-  use('jose-elias-alvarez/null-ls.nvim', { as = 'null-ls' })
+  use { 'kevinhwang91/nvim-ufo', as = 'ufo' }
 
-  use('jose-elias-alvarez/typescript.nvim', { module = { 'typescript' } })
+  use { 'j-hui/fidget.nvim', as = 'fidget' }
 
-  use('p00f/clangd_extensions.nvim', { module = 'clangd_extensions' })
+  use { 'jose-elias-alvarez/null-ls.nvim', as = 'null-ls' }
 
-  use('simrat39/rust-tools.nvim', { module = 'rust-tools' })
+  use { 'jose-elias-alvarez/typescript.nvim', module = { 'typescript' } }
 
-  use('mfussenegger/nvim-jdtls', {
-    as = 'jdtls',
-    ft = { 'java' },
-  })
+  use { 'p00f/clangd_extensions.nvim', module = 'clangd_extensions' }
 
-  use('mfussenegger/nvim-dap', {
-    as = 'dap',
-    module = { 'dap' },
-  })
+  use { 'simrat39/rust-tools.nvim', module = 'rust-tools' }
 
-  use('rcarriga/nvim-dap-ui', { module = { 'dapui' } })
+  use { 'mfussenegger/nvim-jdtls', as = 'jdtls', ft = { 'java' } }
 
-  use('b0o/SchemaStore.nvim', { module = { 'schemastore' } })
+  use { 'mfussenegger/nvim-dap', as = 'dap', module = { 'dap' } }
 
-  use('folke/trouble.nvim', {
-    as = 'trouble',
-    module = { 'trouble' },
-  })
+  use { 'rcarriga/nvim-dap-ui', module = { 'dapui' } }
 
-  use('mfussenegger/nvim-treehopper', {
-    as = 'treehopper',
-    module = { 'tsht' },
-  })
+  use { 'b0o/SchemaStore.nvim', module = { 'schemastore' } }
 
-  use('ziontee113/syntax-tree-surfer', {
+  use { 'folke/trouble.nvim', as = 'trouble', module = { 'trouble' } }
+
+  use { 'mfussenegger/nvim-treehopper', as = 'treehopper', module = { 'tsht' } }
+
+  use {
+    'ziontee113/syntax-tree-surfer',
     as = 'treesurfer',
     module = { 'syntax-tree-surfer' },
-  })
+  }
 
-  use('nvim-treesitter/nvim-treesitter', { as = 'treesitter', run = ':TSUpdate' })
-  use('nvim-treesitter/playground', { after = { 'treesitter' } })
-  use('nvim-treesitter/nvim-treesitter-textobjects', { after = { 'treesitter' } })
-  use('RRethy/nvim-treesitter-textsubjects', { after = { 'treesitter' } })
-  use('JoosepAlviste/nvim-ts-context-commentstring', { after = { 'treesitter' } })
-  use('p00f/nvim-ts-rainbow', { after = { 'treesitter' } })
+  use { 'nvim-treesitter/nvim-treesitter', as = 'treesitter', run = ':TSUpdate' }
+  use { 'nvim-treesitter/playground', after = { 'treesitter' } }
+  use { 'nvim-treesitter/nvim-treesitter-textobjects', after = { 'treesitter' } }
+  use { 'JoosepAlviste/nvim-ts-context-commentstring', after = { 'treesitter' } }
+  use { 'p00f/nvim-ts-rainbow', after = { 'treesitter' } }
 
-  use('nvim-neorg/neorg', { as = 'neorg' })
+  use { 'andymass/vim-matchup', as = 'matchup' }
 
-  use('akinsho/toggleterm.nvim', { as = 'toggleterm', cmd = { 'ToggleTerm' } })
+  use { 'nvim-neorg/neorg', as = 'neorg', after = 'treesitter' }
 
-  use('numToStr/Comment.nvim', { as = 'Comment' })
+  use { 'akinsho/toggleterm.nvim', as = 'toggleterm', cmd = { 'ToggleTerm' } }
 
-  use('lewis6991/gitsigns.nvim', { as = 'gitsigns' })
+  use { 'numToStr/Comment.nvim', as = 'Comment' }
 
-  use('TimUntersberger/neogit', {
-    as = 'neogit',
-    cmd = { 'Neogit' },
-  })
+  use { 'lewis6991/gitsigns.nvim', as = 'gitsigns' }
 
-  use('sindrets/diffview.nvim', { as = 'diffview', cmd = { 'DiffviewOpen' } })
+  use { 'TimUntersberger/neogit', as = 'neogit', cmd = { 'Neogit' } }
 
-  use('andymass/vim-matchup', { as = 'matchup' })
+  use { 'sindrets/diffview.nvim', as = 'diffview', module = { 'diffview' } }
 
-  use('wellle/targets.vim', {})
+  use { 'wellle/targets.vim' }
 
-  use('mg979/vim-visual-multi', {})
-
-  use('machakann/vim-sandwich', {})
+  use { 'mg979/vim-visual-multi' }
 end

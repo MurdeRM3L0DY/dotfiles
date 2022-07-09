@@ -8,9 +8,31 @@ local PACKER_DIR = fn.stdpath 'data' .. '/site/pack/packer/'
 local START_DIR = PACKER_DIR .. 'start/'
 local PACKER_ROOT = START_DIR .. 'packer.nvim'
 
-local packer, packer_clone, packer_setup
+local packer
 
-packer_clone = function()
+local packer_setup = function()
+  packer = require 'packer'
+
+  packer.init {
+    display = {
+      open_fn = function()
+        return require('packer.util').float { border = 'single' }
+      end,
+    },
+  }
+
+  packer.startup(require 'plugins.spec')
+  -- packer.startup(require 'utils.minimal_init')
+
+  vim.schedule(function()
+    if _G.packer_plugins then
+      packer.clean()
+    end
+    packer.install()
+  end)
+end
+
+local packer_clone = function()
   local stderr = uv.new_pipe(false)
 
   uv.spawn('git', {
@@ -33,32 +55,10 @@ packer_clone = function()
     end
   end)
 
-  stderr:read_start(function(err, data)
+  stderr:read_start(function(_, data)
     if data then
       print(data)
     end
-  end)
-end
-
-packer_setup = function()
-  packer = require 'packer'
-
-  packer.init {
-    display = {
-      open_fn = function()
-        return require('packer.util').float { border = 'single' }
-      end,
-    },
-  }
-
-  packer.startup(require 'plugins.spec')
-  -- packer.startup(require 'utils.minimal_init')
-
-  vim.schedule(function()
-    if _G.packer_plugins then
-      packer.clean()
-    end
-    packer.install()
   end)
 end
 

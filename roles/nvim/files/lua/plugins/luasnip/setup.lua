@@ -1,26 +1,26 @@
+local lazy = require 'utils.lazy'
 local keymap = require 'utils.keymap'
 
-local luasnip = function()
-  return require 'luasnip'
-end
+---@module "luasnip.init"
+local luasnip = lazy.require 'luasnip'
 
 local luasnip_jump = function(dir)
-  if luasnip().jumpable(dir) then
-    luasnip().jump(dir)
+  if luasnip.jumpable(dir) then
+    luasnip.jump(dir)
   end
 end
 
 local luasnip_change_choice = function(dir)
-  if luasnip().choice_active() then
-    luasnip().change_choice(dir)
+  if luasnip.choice_active() then
+    luasnip.change_choice(dir)
   end
 end
 
 keymap.key('<C-j>', {
   i = {
     rhs = function()
-      if luasnip().expand_or_jumpable() then
-        luasnip().expand_or_jump()
+      if luasnip.expand_or_jumpable() then
+        luasnip.expand_or_jump()
       end
     end,
     opts = {

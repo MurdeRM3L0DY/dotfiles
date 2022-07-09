@@ -6,6 +6,5 @@ vim.filetype.add {
   },
   extension = {
     blif = 'blif',
-    s = 'gas',
   },
 }

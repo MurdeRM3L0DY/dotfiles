@@ -4,7 +4,7 @@ local keymap = require 'utils.keymap'
 keymap.set('n', '<space>', '<nop>')
 vim.g.mapleader = keymap.t '<space>'
 
-keymap.set('n', '<leader><leader>x', '<cmd>source %<cr>')
+keymap.set('n', '<leader><cr>', '<cmd>source %<cr>')
 
 -- <C-w> keymaps
 keymap.set('n', '<C-h>', '<C-w>h')

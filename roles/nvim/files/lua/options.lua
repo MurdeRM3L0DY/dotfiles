@@ -4,8 +4,7 @@ local opt = vim.opt
 opt.hidden = true
 opt.wrap = false
 opt.shortmess:append 'cI'
-opt.formatoptions:remove 'ro'
--- opt.textwidth = 80
+opt.textwidth = 120
 opt.scrolloff = 8
 opt.swapfile = false
 opt.timeout = true
@@ -20,17 +19,9 @@ opt.undofile = true
 opt.showmode = false
 opt.signcolumn = 'yes:1'
 opt.laststatus = 3
--- opt.number = true
--- opt.relativenumber = true
+-- opt.formatoptions:remove 'ro'
 
 vim.opt.fillchars:append {
-  -- horiz = '━',
-  -- horizup = '┻',
-  -- horizdown = '┳',
-  -- vert = '┃',
-  -- vertleft = '┫',
-  -- vertright = '┣',
-  -- verthoriz = '╋',
   eob = ' ',
   diff = '╱',
   foldclose = '',
@@ -44,8 +35,6 @@ opt.listchars:append {
   nbsp = '␣',
   trail = '•',
   eol = '↴',
-  precedes = '«',
-  extends = '»',
 }
 opt.diffopt:append {
   'algorithm:histogram',

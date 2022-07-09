@@ -1,43 +1,28 @@
 local dap = require 'dap'
 local dapui = require 'dapui'
-local keymap = require 'utils.keymap'
-local augroup = require 'utils.augroup'
-
-keymap.set('n', '<leader>m', function()
-  local session = dap.session()
-  -- session:request('readMemory', {
-  --   memoryReference = '',
-  --   offset = 0,
-  --   count = 1024,
-  -- }, function(err, res)
-  --   P('response', res)
-  --   P('error', err)
-  -- end)
-end)
 
 dapui.setup {
-  sidebar = {
-    -- You can change the order of elements in the sidebar
-    elements = {
-      -- Provide as ID strings or tables with "id" and "size" keys
-      {
-        id = 'scopes',
-        size = 0.25, -- Can be float or integer > 1
+
+  layouts = {
+    {
+      elements = {
+        'scopes',
+        'breakpoints',
+        'stacks',
+        'watches',
       },
-      { id = 'breakpoints', size = 0.25 },
-      { id = 'stacks', size = 0.25 },
-      { id = 'watches', size = 00.25 },
+      size = 40,
+      position = 'left',
     },
-    size = 50,
-    position = 'left', -- Can be "left", "right", "top", "bottom"
+    {
+      elements = {
+        'repl',
+        'console',
+      },
+      size = 10,
+      position = 'bottom',
+    },
   },
-
-  tray = {
-    elements = { 'repl' },
-    size = 10,
-    position = 'bottom', -- Can be "left", "right", "top", "bottom"
-  },
-
   mappings = {
     expand = { '<tab>', '<2-LeftMouse>' },
     open = 'o',
@@ -93,13 +78,3 @@ dap.configurations.c = {
 }
 
 dap.configurations.gas = dap.configurations.c
-
-
-augroup('DAP_USER_AUGROUP', {})(function(au)
-  au.create({'Filetype'}, {
-    pattern = 'dap-repl',
-    callback = function(match)
-      require('dap.ext.autocompl').attach(match.buf)
-    end
-  })
-end)

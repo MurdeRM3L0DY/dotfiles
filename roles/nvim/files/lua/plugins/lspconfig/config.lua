@@ -32,7 +32,6 @@ lspconfig_setup 'pyright'
 lspconfig_setup 'gopls'
 lspconfig_setup 'texlab'
 lspconfig_setup 'jsonls'
-lspconfig_setup 'ltex'
 lspconfig_setup 'yamlls'
 lspconfig_setup 'ansiblels'
 

@@ -1,16 +1,14 @@
+local lazy = require 'utils.lazy'
 local keymap = require 'utils.keymap'
 
-local telescope = function()
-  return require 'telescope'
-end
+---@module 'telescope.init'
+local telescope = lazy.require 'telescope'
 
-local builtin = function()
-  return require 'telescope.builtin'
-end
+---@module 'telescope.builtin'
+local builtin = lazy.require 'telescope.builtin'
 
-local themes = function()
-  return require 'telescope.themes'
-end
+---@module 'telescope.themes'
+local themes = lazy.require 'telescope.themes'
 
 local ivy = function(opts)
   opts = opts or {}
@@ -21,7 +19,7 @@ local ivy = function(opts)
     preview = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
   }
 
-  return themes().get_ivy(opts)
+  return themes.get_ivy(opts)
 end
 
 local dropdown = function(opts)
@@ -33,14 +31,14 @@ local dropdown = function(opts)
     preview = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
   }
 
-  return themes().get_dropdown(opts)
+  return themes.get_dropdown(opts)
 end
 
 local find_files = function(opts)
   local find_command = { 'rg', '--files', '--ignore', '--hidden' }
   local defaults = { find_command = find_command }
 
-  builtin().find_files(ivy(vim.tbl_extend('force', defaults, opts)))
+  builtin.find_files(ivy(vim.tbl_extend('force', defaults, opts)))
 end
 
 keymap.set('n', '<leader>ff', function()
@@ -54,19 +52,19 @@ keymap.set('n', '<leader>fn', function()
 end)
 
 keymap.set('n', '<leader>fg', function()
-  builtin().live_grep()
+  builtin.live_grep()
 end)
 
 keymap.set('n', '<leader>fb', function()
-  telescope().extensions.file_browser.file_browser()
+  telescope.extensions.file_browser.file_browser()
 end)
 
 keymap.set('n', '<leader>bb', function()
-  builtin().buffers(dropdown())
+  builtin.buffers(dropdown())
 end)
 
 keymap.set('n', '<leader>cd', function()
-  telescope().extensions.opener.opener {
+  telescope.extensions.opener.opener {
     hidden = true,
   }
 end)

@@ -1,9 +1,9 @@
+local lazy = require 'utils.lazy'
 local keymap = require 'utils.keymap'
 
-local nvim_tree = function()
-  return require 'nvim-tree'
-end
+---@module "nvim-tree"
+local nvim_tree = lazy.require 'nvim-tree'
 
 keymap.set('n', '<leader>e', function()
-  nvim_tree().toggle()
+  nvim_tree.toggle()
 end)

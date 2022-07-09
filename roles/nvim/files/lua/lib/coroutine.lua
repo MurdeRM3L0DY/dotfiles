@@ -1,4 +1,6 @@
-local select = select
+local coroutine = _G.coroutine
+local select = _G.select
+
 local create = coroutine.create
 local isyieldable = coroutine.isyieldable
 local resume = coroutine.resume
@@ -8,7 +10,7 @@ local wrap = coroutine.wrap
 local yield = coroutine.yield
 
 return function(tag)
-  local coroutine = {
+  local corou = {
     isyieldable = isyieldable,
     running = running,
     status = status,
@@ -33,17 +35,17 @@ return function(tag)
     end
   end
 
-  function coroutine.create(f)
+  function corou.create(f)
     return create(function(...)
       return tag, f(...)
     end)
   end
 
-  function coroutine.resume(co, ...)
+  function corou.resume(co, ...)
     return for_resume(co, resume(co, ...))
   end
 
-  function coroutine.wrap(f)
+  function corou.wrap(f)
     local co = wrap(function(...)
       return tag, f(...)
     end)
@@ -52,9 +54,9 @@ return function(tag)
     end
   end
 
-  function coroutine.yield(...)
+  function corou.yield(...)
     return yield(tag, ...)
   end
 
-  return coroutine
+  return corou
 end
