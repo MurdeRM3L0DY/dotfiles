@@ -2,7 +2,7 @@
     "workbench.colorTheme": "Catppuccin Mocha",
     "workbench.iconTheme": "catppuccin-mocha",
     "telemetry.telemetryLevel": "off",
-    "editor.fontFamily": "CartographCF",
+    "editor.fontFamily": "Cartograph CF",
     "editor.fontSize": 15,
     "editor.minimap.enabled": false,
     "editor.lineNumbers": "relative",

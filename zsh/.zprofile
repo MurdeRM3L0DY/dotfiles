@@ -10,7 +10,7 @@ fi
 #   exec startx
 # fi
 
-if [[ -z $WAYLAND_DISPLAY && -z $DISPLAY ]]; then
+if [[ -z $WAYLAND_DISPLAY && -z $DISPLAY && XDG_VTNR -eq 1 ]]; then
   cd ~
 
   export _JAVA_AWT_WM_NONREPARENTING=1

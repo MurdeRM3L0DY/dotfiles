@@ -393,7 +393,9 @@ return {
     dependencies = {
       {
         'Wansmer/treesj',
-        opts = {},
+        opts = {
+          max_join_length = 999999,
+        },
       },
     },
     keys = {

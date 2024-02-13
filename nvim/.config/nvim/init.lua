@@ -35,6 +35,8 @@ if not vim.g.vscode then
       { import = 'specs.lang.solidity' },
       { import = 'specs.lang.markdown' },
       { import = 'specs.lang.nix' },
+      { import = 'specs.lang.go' },
+      { import = 'specs.lang.kotlin' },
     },
     -- debug = true,
     defaults = {

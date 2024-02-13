@@ -25,6 +25,32 @@ USER_AUGROUP(function(au)
       vim.highlight.on_yank { timeout = 200, higroup = 'OnYank' }
     end,
   })
+
+  -- 4 indent space
+  au.create('FileType', {
+    pattern = { 'c', 'cpp', 'groovy', 'java', 'kotlin', 'python', 'rust' },
+    callback = function(_)
+      vim.opt_local.tabstop = 4
+      vim.opt_local.softtabstop = 4
+      vim.opt_local.shiftwidth = 4
+      vim.opt_local.expandtab = true
+    end,
+  })
+
+  au.create('FileType', {
+    pattern = { 'asm' },
+    callback = function(_)
+      vim.opt_local.relativenumber = false
+      vim.opt_local.number = true
+    end,
+  })
+
+  au.create('FileType', {
+    pattern = { 'blif' },
+    callback = function(_)
+      vim.opt_local.textwidth = 1000
+    end,
+  })
 end)
 
 if vim._watch then

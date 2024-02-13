@@ -5,5 +5,3 @@ bindkey -e
 export EDITOR="nvim"
 export VISUAL="nvim"
 export MANPAGER="nvim +Man!"
-
-# export QT_QPA_PLATFORMTHEME="qt5ct"

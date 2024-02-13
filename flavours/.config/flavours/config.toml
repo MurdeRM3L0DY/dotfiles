@@ -7,13 +7,13 @@ subtemplate = "lush"
 start = "-- <flavours>"
 end = "-- </flavours>"
 
-[[items]]
-file = "~/.config/awesome/ui/theme.lua"
-template = "awesome"
-subtemplate = "colors"
-start = "-- <flavours>"
-end = "-- </flavours>"
-hook = 'awesome-client "awesome.restart()" &'
+# [[items]]
+# file = "~/.config/awesome/ui/theme.lua"
+# template = "awesome"
+# subtemplate = "colors"
+# start = "-- <flavours>"
+# end = "-- </flavours>"
+# hook = 'awesome-client "awesome.restart()" &'
 
 [[items]]
 file = "$HOME/.zsh/functions/fzf_colors.zsh"

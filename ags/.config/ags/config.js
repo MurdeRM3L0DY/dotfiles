@@ -48,7 +48,6 @@ const Clock = () => {
       });
 
       initTimeout.connect('changed', (_) => {
-        // every 60 secs
         self.poll(UPDATE_MILLIS, self => {
           self.label = format()
         });

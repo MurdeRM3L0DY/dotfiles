@@ -1,16 +1,14 @@
 return {
   {
     'folke/neodev.nvim',
-    config = function()
-      require('neodev').setup {
-        library = {
-          vimruntime = true,
-          types = true,
-          plugins = true,
-        },
-        lspconfig = false,
-      }
-    end,
+    opts = {
+      library = {
+        vimruntime = true,
+        types = true,
+        plugins = true,
+      },
+      lspconfig = false,
+    },
   },
   {
     'nvim-lspconfig',
@@ -23,11 +21,16 @@ return {
           end,
           settings = {
             Lua = {
+              runtime = { version = 'LuaJIT' },
               telemetry = {
                 enable = false,
               },
               workspace = {
                 checkThirdParty = false,
+                library = {
+                  '${3rd}/luv/library',
+                  unpack(vim.api.nvim_get_runtime_file('', true)),
+                },
               },
               completion = {
                 callSnippet = 'Replace',

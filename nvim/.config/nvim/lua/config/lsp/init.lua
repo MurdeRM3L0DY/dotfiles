@@ -1,13 +1,13 @@
 local keymap = require('utils.keymap')
 local lsputils = require('utils.lsp')
 
-local methods = vim.lsp.protocol.Methods
+local ms = vim.lsp.protocol.Methods
 
 -- vim.lsp.set_log_level('trace')
 
-vim.lsp.handlers[methods.textDocument_hover] =
+vim.lsp.handlers[ms.textDocument_hover] =
   vim.lsp.with(vim.lsp.handlers.hover, { border = 'single' })
-vim.lsp.handlers[methods.textDocument_signatureHelp] =
+vim.lsp.handlers[ms.textDocument_signatureHelp] =
   vim.lsp.with(vim.lsp.handlers.signature_help, { border = 'single' })
 
 local function on_attach(client, bufnr)
@@ -146,13 +146,14 @@ end
 lsputils.on_attach(on_attach)
 
 -- Update mappings when registering dynamic capabilities.
-local register_capability = vim.lsp.handlers[methods.client_registerCapability]
-vim.lsp.handlers[methods.client_registerCapability] = function(err, res, ctx)
+local register_capability = vim.lsp.handlers[ms.client_registerCapability]
+vim.lsp.handlers[ms.client_registerCapability] = function(err, res, ctx)
   local client = vim.lsp.get_client_by_id(ctx.client_id)
   if not client then
     return
   end
 
+  -- print(vim.api.nvim_get_current_buf(), ctx.bufnr)
   on_attach(client, vim.api.nvim_get_current_buf())
 
   return register_capability(err, res, ctx)

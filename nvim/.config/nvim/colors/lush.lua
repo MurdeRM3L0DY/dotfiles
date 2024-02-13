@@ -43,6 +43,8 @@ local C = R('utils.palette') ---@module 'utils.palette'
 --   crust = hsl(240, 23, 9), -- Crust (hsl '#11111B'),
 -- }
 
+local a = hsl("#94e2d5")
+
 -- local C = {
 --   BASE00 = hsl(270, 30, 5),
 --   BASE01 = hsl(240, 21, 15),

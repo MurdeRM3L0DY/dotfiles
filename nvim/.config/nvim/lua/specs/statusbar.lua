@@ -18,89 +18,6 @@ return {
     end,
   },
   {
-    'catppuccin/nvim',
-    name = 'catppuccin',
-    -- lazy = false,
-    config = function()
-      require('catppuccin').setup {
-        flavour = 'mocha', -- latte, frappe, macchiato, mocha
-        background = { -- :h background
-          light = 'latte',
-          dark = 'mocha',
-        },
-        transparent_background = false, -- disables setting the background color.
-        show_end_of_buffer = false, -- shows the '~' characters after the end of buffers
-        term_colors = false, -- sets terminal colors (e.g. `g:terminal_color_0`)
-        dim_inactive = {
-          enabled = false, -- dims the background color of inactive window
-          shade = 'dark',
-          percentage = 0.15, -- percentage of the shade to apply to the inactive window
-        },
-        no_italic = false, -- Force no italic
-        no_bold = false, -- Force no bold
-        no_underline = false, -- Force no underline
-        styles = { -- Handles the styles of general hi groups (see `:h highlight-args`):
-          comments = { 'italic' }, -- Change the style of comments
-          conditionals = { 'italic' },
-          loops = {},
-          functions = {},
-          keywords = {},
-          strings = {},
-          variables = {},
-          numbers = {},
-          booleans = {},
-          properties = {},
-          types = {},
-          operators = {},
-        },
-        color_overrides = {},
-        custom_highlights = {},
-        integrations = {
-          native_lsp = {
-            enabled = true,
-            virtual_text = {
-              errors = { 'italic' },
-              hints = { 'italic' },
-              warnings = { 'italic' },
-              information = { 'italic' },
-            },
-            underlines = {
-              errors = { 'undercurl' },
-              hints = { 'undercurl' },
-              warnings = { 'undercurl' },
-              information = { 'undercurl' },
-            },
-            inlay_hints = {
-              background = true,
-            },
-          },
-          navic = true,
-          neogit = true,
-          neotree = true,
-          semantic_tokens = true,
-          mason = true,
-          barbar = true,
-          markdown = true,
-          octo = true,
-          cmp = true,
-          gitsigns = true,
-          nvimtree = true,
-          treesitter = true,
-          notify = false,
-          mini = true,
-          noice = true,
-          flash = true,
-          lsp_trouble = true,
-          -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
-        },
-        -- compile_path = '',
-        highlight_overrides = {},
-      }
-
-      vim.cmd.colorschem('catppuccin')
-    end,
-  },
-  {
     'rebelot/heirline.nvim',
     event = 'UIEnter',
     init = function(p)
@@ -990,137 +907,12 @@ return {
     end,
   },
   {
-    'rktjmp/lush.nvim',
-    lazy = false,
-    init = function(p)
-      USER_AUGROUP(function(au)
-        au.create('User', {
-          pattern = 'Flavours',
-          callback = function()
-            require('lazy').reload { plugins = { p } }
-          end,
-          once = true,
-        })
-      end)
-    end,
-    config = function()
-      vim.cmd.colorscheme('lush')
-    end,
-  },
-  -- {
-  --   'echasnovski/mini.colors',
-  --   config = function()
-  --     require('mini.colors').setup {}
-  --   end,
-  -- },
-  -- {
-  --   'echasnovski/mini.hues',
-  --   -- lazy = false,
-  --   opts = function()
-  --     local palette = require('utils.palette')
-  --     return {
-  --       background = palette.BASE00.da(20).hex,
-  --       foreground = palette.BASE05.sa(20).hex,
-  --       saturation = 'medium',
-  --       n_hues = 8,
-  --     }
-  --   end,
-  -- },
-  {
-    'SmiteshP/nvim-navic',
-    init = function()
-      vim.g.navic_silence = true
-
-      -- require('utils.lsp').on_attach(function(client, bufnr)
-      --   if client.server_capabilities.documentSymbolProvider then
-      --     require('nvim-navic').attach(client, bufnr)
-      --   end
-      -- end)
-    end,
-    config = function()
-      require('nvim-navic').setup {
-        highlight = true,
-        icons = {
-          File = ' ',
-          Module = ' ',
-          Namespace = ' ',
-          Package = ' ',
-          Class = ' ',
-          Method = ' ',
-          Property = ' ',
-          Field = ' ',
-          Constructor = ' ',
-          Enum = ' ',
-          Interface = ' ',
-          Function = ' ',
-          Variable = ' ',
-          Constant = ' ',
-          String = ' ',
-          Number = ' ',
-          Boolean = ' ',
-          Array = ' ',
-          Object = ' ',
-          Key = ' ',
-          Null = ' ',
-          EnumMember = ' ',
-          Struct = ' ',
-          Event = ' ',
-          Operator = ' ',
-          TypeParameter = ' ',
-        },
-      }
-    end,
-  },
-  {
-    'folke/noice.nvim',
-    event = 'UIEnter',
-    config = function()
-      require('noice').setup {
-        cmdline = {
-          enabled = true,
-          view = 'cmdline',
-        },
-        lsp = {
-          override = {
-            ['vim.lsp.util.convert_input_to_markdown_lines'] = true,
-            ['vim.lsp.util.stylize_markdown'] = true,
-            ['cmp.entry.get_documentation'] = true,
-          },
-
-          signature = {
-            enabled = false,
-            throttle = 0,
-          },
-          hover = {
-            enabled = true,
-          },
-        },
-
-        views = {
-          hover = {
-            border = {
-              style = 'single',
-            },
-          },
-        },
-
-        presets = {
-          bottom_search = false, -- use a classic bottom cmdline for search
-          command_palette = true, -- position the cmdline and popupmenu together
-          long_message_to_split = false, -- long messages will be sent to a split
-          inc_rename = false, -- enables an input dialog for inc-rename.nvim
-          lsp_doc_border = false, -- add a border to hover docs and signature help
-        },
-      }
-    end,
-  },
-  {
     'MunifTanjim/nougat.nvim',
     -- event = 'UIEnter',
     config = function()
+      local nougat = require('nougat')
       local core = require('nougat.core')
       local Bar = require('nougat.bar')
-      local bar_util = require('nougat.bar.util')
       local Item = require('nougat.item')
       local sep = require('nougat.separator')
 
@@ -1148,78 +940,12 @@ return {
         truncation_point = require('nougat.nut.truncation_point').create,
       }
 
-      local color = {
-        bg = '#1d2021',
-        bg0_h = '#1d2021',
-        bg0 = '#282828',
-        bg0_s = '#32302f',
-        bg1 = '#3c3836',
-        bg2 = '#504945',
-        bg3 = '#665c54',
-        bg4 = '#7c6f64',
-
-        gray = '#928374',
-
-        fg = '#ebdbb2',
-        fg0 = '#fbf1c7',
-        fg1 = '#ebdbb2',
-        fg2 = '#d5c4a1',
-        fg3 = '#bdae93',
-        fg4 = '#a89984',
-
-        lightgray = '#a89984',
-
-        red = '#fb4934',
-        green = '#b8bb26',
-        yellow = '#fabd2f',
-        blue = '#83a598',
-        purple = '#d3869b',
-        aqua = '#8ec07c',
-        orange = '#f38019',
-
-        accent = {
-          red = '#cc241d',
-          green = '#98971a',
-          yellow = '#d79921',
-          blue = '#458588',
-          purple = '#b16286',
-          aqua = '#689d6a',
-          orange = '#d65d0e',
-        },
-      }
+      ---@type nougat.color
+      local color = require('nougat.color').get()
 
       local mode = nut.mode {
         sep_left = sep.left_half_circle_solid(true),
         sep_right = sep.right_half_circle_solid(true),
-        config = {
-          highlight = {
-            normal = {
-              bg = 'fg',
-              fg = color.bg,
-            },
-            visual = {
-              bg = color.orange,
-              fg = color.bg,
-            },
-            insert = {
-              bg = color.blue,
-              fg = color.bg,
-            },
-            replace = {
-              bg = color.purple,
-              fg = color.bg,
-            },
-            commandline = {
-              bg = color.green,
-              fg = color.bg,
-            },
-            terminal = {
-              bg = color.accent.green,
-              fg = color.bg,
-            },
-            inactive = {},
-          },
-        },
       }
 
       local filename = (function()
@@ -1325,7 +1051,7 @@ return {
       stl:add_item(mode)
       stl:add_item(sep.space())
       stl:add_item(nut.git.branch {
-        hl = { bg = color.purple, fg = color.bg },
+        hl = { bg = color.magenta, fg = color.bg },
         sep_left = sep.left_half_circle_solid(true),
         prefix = ' ',
         sep_right = sep.right_half_circle_solid(true),
@@ -1376,10 +1102,10 @@ return {
         sep_left = sep.left_half_circle_solid(true),
         sep_right = sep.right_half_circle_solid(true),
         config = {
-          error = { prefix = ' ', fg = color.red },
-          warn = { prefix = ' ', fg = color.yellow },
-          info = { prefix = ' ', fg = color.blue },
-          hint = { prefix = ' ', fg = color.green },
+          error = { prefix = ' ' },
+          warn = { prefix = ' ' },
+          info = { prefix = ' ' },
+          hint = { prefix = '󰌶 ' },
         },
       })
       stl:add_item(paired_space(diagnostic_count))
@@ -1395,7 +1121,7 @@ return {
       stl_inactive:add_item(ruler)
       stl_inactive:add_item(sep.space())
 
-      bar_util.set_statusline(function(ctx)
+      nougat.set_statusline(function(ctx)
         return ctx.is_focused and stl or stl_inactive
       end)
 
@@ -1403,7 +1129,7 @@ return {
 
       tal:add_item(nut.tab.tablist.tabs {
         active_tab = {
-          hl = { bg = color.bg0_h, fg = color.blue },
+          hl = { bg = color.bg, fg = color.blue },
           prefix = ' ',
           suffix = ' ',
           content = {
@@ -1412,8 +1138,8 @@ return {
             nut.tab.tablist.modified { prefix = ' ', config = { text = '●' } },
             nut.tab.tablist.close { prefix = ' ', config = { text = '󰅖' } },
           },
-          sep_left = sep.left_half_circle_solid { bg = 'bg', fg = color.bg0_h },
-          sep_right = sep.right_half_circle_solid { bg = 'bg', fg = color.bg0_h },
+          sep_left = sep.left_half_circle_solid { bg = 'bg', fg = color.bg },
+          sep_right = sep.right_half_circle_solid { bg = 'bg', fg = color.bg },
         },
         inactive_tab = {
           hl = { bg = color.bg2, fg = color.fg2 },
@@ -1430,7 +1156,7 @@ return {
         },
       })
 
-      bar_util.set_tabline(tal)
+      nougat.set_tabline(tal)
     end,
   },
 }
