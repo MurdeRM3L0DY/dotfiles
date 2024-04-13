@@ -26,7 +26,9 @@ return {
       ensure_installed = {},
     },
     config = function(_, opts)
-      require('mason').setup {}
+      require('mason').setup {
+        -- log_level = vim.log.levels.DEBUG,
+      }
 
       local mr = require('mason-registry')
       mr:on('package:install:success', function()
@@ -54,5 +56,14 @@ return {
         ensure_installed()
       end
     end,
+  },
+  {
+    'nvim-neotest/nvim-nio',
+  },
+  {
+    'grapp-dev/nui-components.nvim',
+    dependencies = {
+      'nui.nvim',
+    },
   },
 }

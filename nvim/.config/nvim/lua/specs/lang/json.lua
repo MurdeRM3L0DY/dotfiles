@@ -6,7 +6,7 @@ return {
   },
   opts = {
     servers = {
-      ['jsonls'] = {
+      jsonls = {
         before_init = function(_, config)
           local schemas = vim.list_extend(
             require('schemastore').json.schemas {

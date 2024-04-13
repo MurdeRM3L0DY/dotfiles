@@ -5,7 +5,13 @@ return {
     opts = {
       servers = {
         rust_analyzer = {
-          settings = {},
+          settings = {
+            procMacro = {
+              attributes = {
+                enable = true
+              }
+            }
+          },
         },
       },
     },

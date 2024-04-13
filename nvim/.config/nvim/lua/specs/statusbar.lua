@@ -32,7 +32,7 @@ return {
       end)
     end,
     config = function()
-      local C = require('utils.palette')
+      local C = R('utils.palette')
       local augroup = require('utils.augroup')
       local settings = require('utils.settings')
 

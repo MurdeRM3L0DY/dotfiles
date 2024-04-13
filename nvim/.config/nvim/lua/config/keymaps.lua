@@ -23,10 +23,10 @@ keymap.set('x', 'p', '"_dP')
 keymap.set('x', 'P', '"_dp')
 
 -- post center cursor
-keymap.set('n', '<C-u>', '<C-u>zz')
-keymap.set('n', '<C-d>', '<C-d>zz')
-keymap.set('n', '<C-i>', '<C-i>zz')
-keymap.set('n', '<C-o>', '<C-o>zz')
+-- keymap.set('n', '<C-u>', '<C-u>zz')
+-- keymap.set('n', '<C-d>', '<C-d>zz')
+-- keymap.set('n', '<C-i>', '<C-i>zz')
+-- keymap.set('n', '<C-o>', '<C-o>zz')
 
 -- window resize
 keymap.set('n', '<M-h>', '<C-w><')

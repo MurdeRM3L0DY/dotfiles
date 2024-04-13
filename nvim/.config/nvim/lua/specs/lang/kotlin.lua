@@ -1,4 +1,5 @@
 return {
+  { import = 'specs.lang.xml' },
   {
     'nvim-lspconfig',
     ft = {

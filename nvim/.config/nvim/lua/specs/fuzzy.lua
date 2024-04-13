@@ -7,7 +7,7 @@ return {
       { 'nvim-treesitter' },
     },
     keys = function()
-      require('config.lsp.keys').update {
+      require('config.lsp').update_keys {
         {
           '<leader>ca',
           function()

@@ -85,19 +85,21 @@ config.init_options = {
 }
 
 return {
-  'mfussenegger/nvim-jdtls',
-  init = function()
-    lsputils.setup({ 'java' }, function(ctx)
-      config.root_dir = vim.fs.dirname(
-        vim.fs.find({ 'gradlew', 'settings.gradle', 'mvnw', 'pom.xml' }, { upward = true })[1]
-      )
-      config.cmd = {
-        'jdt-language-server',
-        '-data',
-        vim.fs.normalize('$HOME/.jdtls/' .. vim.fn.fnamemodify(config.root_dir, ':t')),
-      }
+  {
+    'mfussenegger/nvim-jdtls',
+    init = function()
+      lsputils.setup({ 'java' }, function(ctx)
+        config.root_dir = vim.fs.dirname(
+          vim.fs.find({ 'gradlew', 'settings.gradle', 'mvnw', 'pom.xml' }, { upward = true })[1]
+        )
+        config.cmd = {
+          'jdtls',
+          '-data',
+          vim.fs.normalize('$HOME/.jdtls/' .. vim.fn.fnamemodify(config.root_dir, ':t')),
+        }
 
-      require('jdtls').start_or_attach(lsputils.make_config(config))
-    end)
-  end,
+        require('jdtls').start_or_attach(require('config.lsp').make_client_config(config))
+      end)
+    end,
+  },
 }

@@ -18,6 +18,9 @@ code/.config/VSCodium/Cookies-journal
 code/.config/VSCodium/Network Persistent State
 code/.config/VSCodium/Preferences
 code/.config/VSCodium/TransportSecurity
+code/.config/VSCodium/Trust Tokens
+code/.config/VSCodium/Trust Tokens-journal
+code/.config/VSCodium/TransportSecurity
 code/.config/VSCodium/languagepacks.json
 code/.config/VSCodium/machineid
 

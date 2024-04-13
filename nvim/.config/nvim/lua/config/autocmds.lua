@@ -28,20 +28,12 @@ USER_AUGROUP(function(au)
 
   -- 4 indent space
   au.create('FileType', {
-    pattern = { 'c', 'cpp', 'groovy', 'java', 'kotlin', 'python', 'rust' },
+    pattern = { 'c', 'cpp', 'groovy', 'java', 'kotlin', 'python', 'rust', 'solidity' },
     callback = function(_)
       vim.opt_local.tabstop = 4
       vim.opt_local.softtabstop = 4
       vim.opt_local.shiftwidth = 4
       vim.opt_local.expandtab = true
-    end,
-  })
-
-  au.create('FileType', {
-    pattern = { 'asm' },
-    callback = function(_)
-      vim.opt_local.relativenumber = false
-      vim.opt_local.number = true
     end,
   })
 

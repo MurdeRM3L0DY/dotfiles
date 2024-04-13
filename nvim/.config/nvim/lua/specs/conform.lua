@@ -7,23 +7,23 @@ return {
       end
 
       -- override default lsp format keymap
-      require('config.lsp.keys').update {
+      require('config.lsp').update_keys {
         {
           '<leader>F',
-          mode = { 'n' },
           function()
             format({ lsp_fallback = true }, nil)
           end,
+          mode = { 'n', 'v' },
         },
       }
 
       return {
         {
           '<leader>F',
-          mode = { 'n' },
           function()
             format({}, nil)
           end,
+          mode = { 'n', 'v' },
         },
       }
     end,

@@ -8,25 +8,35 @@ return {
   },
   {
     'quarto-dev/quarto-nvim',
-    ft = { 'markdown', 'quarto' },
+    ft = { 'quarto' },
     dependencies = {
-      { 'jmbuhr/otter.nvim' },
+      {
+        'jmbuhr/otter.nvim',
+        dependencies = {
+          {
+            'nvim-cmp',
+            opts = function(_, opts)
+              local cmp = require('cmp')
+              vim.list_extend(
+                opts.sources,
+                cmp.config.sources {
+                  { name = 'otter' },
+                }
+              )
+            end,
+          },
+        },
+        opts = {},
+      },
       {
         'nvim-lspconfig',
         opts = {
           servers = {
             marksman = {},
-            r_language_server = {},
           },
         },
       },
-      {
-        'mason.nvim',
-        opts = function(_, opts)
-          table.insert(opts.ensure_installed, 'r-languageserver')
-          table.insert(opts.ensure_installed, 'marksman')
-        end,
-      },
+      { import = 'specs.lang.r' },
     },
     opts = {
       debug = false,
@@ -44,8 +54,8 @@ return {
         },
       },
       codeRunner = {
-        enabled = false,
-        default_method = nil, -- 'molten' or 'slime'
+        enabled = true,
+        default_method = 'molten', -- 'molten' or 'slime'
         ft_runners = {}, -- filetype to runner, ie. `{ python = "molten" }`.
         -- Takes precedence over `default_method`
         never_run = { 'yaml' }, -- filetypes which are never sent to a code runner
@@ -57,5 +67,28 @@ return {
         references = 'gr',
       },
     },
+  },
+  {
+    'chomosuke/typst-preview.nvim',
+    ft = 'typst',
+    version = '0.1.*',
+    build = function()
+      require('typst-preview').update()
+    end,
+  },
+  {
+    'nvim-lspconfig',
+    ft = { 'typst' },
+    opts = {
+      servers = {
+        typst_lsp = {},
+      },
+    },
+  },
+  {
+    'mason.nvim',
+    opts = function(_, opts)
+      table.insert(opts.ensure_installed, 'typst-lsp')
+    end,
   },
 }

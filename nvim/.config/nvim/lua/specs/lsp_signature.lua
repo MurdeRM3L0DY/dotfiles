@@ -1,6 +1,5 @@
 return {
   'ray-x/lsp_signature.nvim',
-  -- event = 'VeryLazy',
   opts = {},
   init = function()
     -- require('utils.lsp').on_attach(function(client, bufnr)

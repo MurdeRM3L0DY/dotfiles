@@ -1,6 +1,5 @@
 local keymap = require('utils.keymap')
 local lsputils = require('utils.lsp')
-
 local ms = vim.lsp.protocol.Methods
 
 -- vim.lsp.set_log_level('trace')
@@ -10,8 +9,126 @@ vim.lsp.handlers[ms.textDocument_hover] =
 vim.lsp.handlers[ms.textDocument_signatureHelp] =
   vim.lsp.with(vim.lsp.handlers.signature_help, { border = 'single' })
 
+local keys = {
+  {
+    'K',
+    function()
+      vim.lsp.buf.hover()
+    end,
+    mode = { 'n' },
+  },
+  {
+    '<leader>ca',
+    function()
+      vim.lsp.buf.code_action()
+    end,
+    mode = { 'n', 'x' },
+  },
+  {
+    '<leader>rn',
+    function()
+      vim.lsp.buf.rename()
+    end,
+    mode = { 'n' },
+  },
+  {
+    'gD',
+    function()
+      vim.lsp.buf.declaration()
+    end,
+    mode = { 'n' },
+  },
+  {
+    'gd',
+    function()
+      vim.lsp.buf.definition()
+    end,
+    mode = { 'n' },
+  },
+  {
+    'gt',
+    function()
+      vim.lsp.buf.type_definition()
+    end,
+    mode = { 'n' },
+  },
+  {
+    'gi',
+    function()
+      vim.lsp.buf.implementation()
+    end,
+    mode = { 'n' },
+  },
+  {
+    'gr',
+    function()
+      vim.lsp.buf.references()
+    end,
+    mode = { 'n' },
+  },
+  {
+    '<leader>sd',
+    function()
+      vim.lsp.buf.document_symbol()
+    end,
+    mode = { 'n' },
+  },
+  {
+    '<leader>ss',
+    function()
+      vim.lsp.buf.workspace_symbol()
+    end,
+    mode = { 'n' },
+  },
+  {
+    '<C-s>',
+    function()
+      vim.lsp.buf.signature_help()
+    end,
+    mode = { 'i' },
+  },
+  {
+    '<leader>F',
+    function()
+      vim.lsp.buf.format()
+    end,
+    mode = { 'n', 'x' },
+  },
+}
+
+---@diagnostic disable: missing-fields
+---@type vim.lsp.ClientConfig
+local config = {
+  capabilities = vim.lsp.protocol.make_client_capabilities(),
+
+  flags = { debounce_text_changes = 10 },
+}
+
+local function update_client_config(new_config)
+  config = vim.tbl_deep_extend('force', config, new_config or {})
+end
+
+local function update_keys(new_keys)
+  vim.list_extend(keys, new_keys or {})
+end
+
+local function apply_keys(client, bufnr)
+  local Keys = require('lazy.core.handler.keys')
+  local keymaps = Keys.resolve(keys)
+  for _, key in pairs(keymaps) do
+    local opts = Keys.opts(key)
+    opts.silent = opts.silent ~= false
+    opts.buffer = bufnr
+    keymap.set(key.mode or 'n', key.lhs, key.rhs, opts)
+  end
+end
+
+local function make_client_config(new_config)
+  return vim.tbl_deep_extend('force', config, new_config or {})
+end
+
 local function on_attach(client, bufnr)
-  require('config.lsp.keys').apply(client, bufnr)
+  apply_keys(client, bufnr)
 
   -- local function if_supports_method(method, on_true)
   --   if client.supports_method(method) then
@@ -305,3 +422,9 @@ end
 --     root_markers = { 'pom.xml' },
 --   }
 -- end)
+
+return {
+  make_client_config = make_client_config,
+  update_client_config = update_client_config,
+  update_keys = update_keys,
+}

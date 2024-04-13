@@ -72,6 +72,10 @@ setopt hist_verify            # Do not execute immediately upon history expansio
 setopt inc_append_history     # Write to the history file immediately, not when the shell exits.
 setopt share_history          # Share history between different instances of the shell.
 
+export SAVEHIST=1000
+export HISTSIZE=$SAVEHIST
+export HISTFILE=$XDG_CACHE_HOME/.zsh_history
+
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' menu select
 
@@ -145,3 +149,18 @@ bindkey -M viins '^R' wrap-fzf-history-widget
 eval "$(starship init zsh)"
 eval "$(direnv hook zsh)"
 eval "$(mise activate zsh)"
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/nemesis/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/nemesis/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/nemesis/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/nemesis/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<

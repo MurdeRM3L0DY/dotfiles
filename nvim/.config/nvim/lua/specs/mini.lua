@@ -309,7 +309,7 @@ return {
         })
 
         au.create({ 'FileType' }, {
-          pattern = { 'c', 'cpp', 'kotlin' },
+          pattern = { 'c', 'cpp', 'kotlin', 'kdl', 'typst' },
           callback = function(ctx)
             vim.bo[ctx.buf].commentstring = '// %s'
           end,
@@ -414,6 +414,24 @@ return {
     },
     opts = {
       max_join_length = 999999,
+    },
+  },
+  {
+    'echasnovski/mini.diff',
+    event = { 'BufReadPost' },
+    keys = {
+      {
+        '<leader>dm',
+        function()
+          require('mini.diff').toggle_overlay()
+        end,
+        mode = { 'n' },
+      },
+    },
+    opts = {
+      delay = {
+        text_change = 10,
+      },
     },
   },
 }

@@ -12,7 +12,7 @@ function M.setup(filetypes, cb)
     au.create('FileType', {
       pattern = filetypes,
       callback = function(ctx)
-        local cfg = cb(ctx)
+        local cfg, opts = cb(ctx)
         if cfg then
           local root_markers = cfg.root_markers
           cfg.root_markers = nil
@@ -37,7 +37,10 @@ function M.setup(filetypes, cb)
 
           cfg.filetypes = filetypes
 
-          vim.lsp.start(M.make_config(cfg), { bufnr = ctx.buf, reuse_client = cfg.reuse_client })
+          vim.lsp.start(
+            require('config.lsp').make_client_config(cfg),
+            { bufnr = ctx.buf, reuse_client = opts.reuse_client }
+          )
         end
       end,
     })
@@ -57,31 +60,6 @@ function M.on_attach(cb)
       end,
     })
   end)
-end
-
-do
-  local default_capabilities = vim.lsp.protocol.make_client_capabilities()
-
-  ---merge lsp client configuration
-  ---@param opts table
-  ---@return table
-  function M.make_config(opts)
-    local has_cmp_nvim_lsp, cmp_nvim_lsp = pcall(function()
-      return require('cmp_nvim_lsp')
-    end)
-
-    local base = {
-      capabilities = vim.tbl_deep_extend(
-        'force',
-        default_capabilities,
-        has_cmp_nvim_lsp and cmp_nvim_lsp.default_capabilities() or {}
-      ),
-      flags = { debounce_text_changes = 10 },
-    }
-
-    ---@type table
-    return vim.tbl_deep_extend('force', base, opts)
-  end
 end
 
 return setmetatable(M, {})

@@ -34,7 +34,6 @@ return {
             settings = {
               python = {
                 analysis = {},
-                -- defaultInterpreterPath = vim.fn.expand('$VIRTUAL_ENV/bin/python3'),
               },
             },
           },
@@ -47,7 +46,20 @@ return {
         }
       end
 
-      opts.servers.pylance = {}
+      opts.servers.pylance = {
+        before_init = function(_, config)
+          local prefix = vim.env.CONDA_PREFIX ~= ('%s/miniconda3'):format(vim.env.HOME)
+              and vim.env.CONDA_PREFIX
+            or vim.env.VIRTUAL_ENV
+
+          local defaultInterpreterPath = prefix and ('%s/bin/python'):format(prefix)
+          config.settings.python = {
+            defaultInterpreterPath = defaultInterpreterPath,
+          }
+        end,
+      }
+
+      opts.servers.ruff = {}
     end,
   },
   {
@@ -72,6 +84,14 @@ return {
       vim.g.molten_image_provider = 'image.nvim'
       vim.g.molten_output_win_max_height = 20
       vim.g.molten_auto_open_output = false
+    end,
+  },
+  {
+    'mason.nvim',
+    opts = function(_, opts)
+      vim.list_extend(opts.ensure_installed, {
+        'ruff',
+      })
     end,
   },
 }

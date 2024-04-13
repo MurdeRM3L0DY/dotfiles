@@ -48,16 +48,37 @@ return {
         end,
         mode = { 'i', 's' },
       },
-      --   {
-      --     '<C-E>',
-      --     function()
-      --       luasnip_change_choice(-1)
-      --     end,
-      --     mode = { 'i', 's' },
-      --   },
     },
     config = function()
       local types = require('luasnip.util.types')
+
+      vim.api.nvim_create_autocmd('User', {
+        pattern = 'LuasnipPreExpand',
+        callback = function()
+          -- get event-parameters from `session`.
+          local lsess = require('luasnip').session
+
+          local snippet = lsess.event_node
+          local expand_position = lsess.event_args.expand_pos
+
+          -- require('cmp').complete {
+          --   config = {
+          --     sources = {
+          --       { name = 'luasnip' },
+          --     },
+          --   },
+          -- }
+
+          -- print(
+          --   string.format(
+          --     'expanding snippet %s at %s:%s',
+          --     table.concat(snippet:get_docstring(), '\n'),
+          --     expand_position[1],
+          --     expand_position[2]
+          --   )
+          -- )
+        end,
+      })
 
       ls.config.setup {
         history = true,
@@ -74,7 +95,7 @@ return {
 
       for _, i in ipairs { 'lua', 'snipmate', 'vscode' } do
         require('luasnip.loaders.from_' .. i).lazy_load {
-          paths = '~/.config/nvim/lua/specs/luasnip/snippets/' .. i,
+          paths = vim.fn.stdpath('config') .. '/lua/specs/luasnip/snippets/' .. i,
         }
       end
     end,
@@ -86,7 +107,13 @@ return {
     },
     opts = function(_, opts)
       local cmp = require('cmp')
-      vim.list_extend(opts.sources, cmp.config.sources { name = 'luasnip' })
+
+      vim.list_extend(
+        opts.sources,
+        cmp.config.sources {
+          { name = 'luasnip' },
+        }
+      )
 
       function opts.snippet.expand(args)
         require('luasnip').lsp_expand(args.body)

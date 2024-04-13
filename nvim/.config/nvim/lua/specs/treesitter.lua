@@ -32,7 +32,7 @@ return {
         'java',
         'rust',
         'toml',
-        'yaml',
+        -- 'yaml',
         'go',
         'gomod',
         'godot_resource',
@@ -47,6 +47,7 @@ return {
         'zig',
         'vimdoc',
         'r',
+        'typst',
       },
       highlight = {
         enable = true,

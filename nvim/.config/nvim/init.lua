@@ -37,6 +37,8 @@ if not vim.g.vscode then
       { import = 'specs.lang.nix' },
       { import = 'specs.lang.go' },
       { import = 'specs.lang.kotlin' },
+      { import = 'specs.lang.yaml' },
+      { import = 'specs.lang.java' }
     },
     -- debug = true,
     defaults = {
@@ -62,7 +64,7 @@ if not vim.g.vscode then
           'matchit',
           'matchparen',
           'netrwPlugin',
-          'rplugin',
+          -- 'rplugin',
           'shada',
           'spellfile',
           'tarPlugin',

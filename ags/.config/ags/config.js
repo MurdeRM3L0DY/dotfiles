@@ -175,7 +175,7 @@ const Right = () => Widget.Box({
   children: [
     Volume(),
     BatteryLabel(),
-    Clock(),
+    // Clock(),
     SysTray(),
   ],
 });

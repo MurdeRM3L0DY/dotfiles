@@ -5,7 +5,14 @@ return {
     { 'hrsh7th/cmp-cmdline' },
     { 'hrsh7th/cmp-path' },
     { 'hrsh7th/cmp-buffer' },
-    { 'hrsh7th/cmp-nvim-lsp' },
+    {
+      'hrsh7th/cmp-nvim-lsp',
+      init = function()
+        require('config.lsp').update_client_config {
+          capabilities = require('cmp_nvim_lsp').default_capabilities(),
+        }
+      end,
+    },
     { 'hrsh7th/cmp-nvim-lsp-signature-help' },
   },
   opts = function()
@@ -42,7 +49,7 @@ return {
           compare.locality,
           -- compare.offset,
           -- compare.exact,
-          -- compare.scopes,
+          compare.scopes,
           -- compare.kind,
           -- compare.sort_text,
           compare.length,
@@ -65,6 +72,12 @@ return {
 
       preselect = cmp.PreselectMode.Item,
 
+      view = {
+        entries = {
+          follow_cursor = true
+        }
+      },
+
       mapping = {
         ['<C-e>'] = cmp.mapping(cmp.config.disable, { 'i', 'c' }),
         ['<C-f>'] = cmp.mapping.scroll_docs(4),
@@ -79,9 +92,10 @@ return {
           { 'i', 'c' }
         ),
         ['<C-Space>'] = cmp.mapping(function(fallback)
-          local complete = not cmp.visible() and cmp.mapping.complete {} or cmp.mapping.close()
+          local complete_or_close = not cmp.visible() and cmp.mapping.complete {}
+            or cmp.mapping.close()
 
-          complete(fallback)
+          complete_or_close(fallback)
         end, { 'i', 'c' }),
         ['<Tab>'] = cmp.mapping(function(fallback)
           local complete_or_next = not cmp.visible() and cmp.mapping.complete {}
@@ -122,6 +136,13 @@ return {
     cmp.setup.cmdline(':', {
       sources = cmp.config.sources {
         { name = 'cmdline' },
+      },
+    })
+
+    ---@diagnostic disable-next-line: missing-fields
+    cmp.setup.cmdline({ '/', '?' }, {
+      sources = cmp.config.sources {
+        { name = 'buffer' },
       },
     })
   end,

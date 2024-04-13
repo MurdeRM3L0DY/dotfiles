@@ -15,30 +15,25 @@ return {
     ft = { 'lua' },
     opts = {
       servers = {
-        ['lua_ls'] = {
+        lua_ls = {
           before_init = function(...)
             require('neodev.lsp').before_init(...)
           end,
           settings = {
             Lua = {
-              runtime = { version = 'LuaJIT' },
               telemetry = {
                 enable = false,
               },
               workspace = {
                 checkThirdParty = false,
-                library = {
-                  '${3rd}/luv/library',
-                  unpack(vim.api.nvim_get_runtime_file('', true)),
-                },
               },
               completion = {
                 callSnippet = 'Replace',
                 showWord = 'Disable',
               },
-              hint = {
-                enable = true,
-              },
+              -- hint = {
+              --   enable = true,
+              -- },
             },
           },
         },

@@ -43,8 +43,6 @@ local C = R('utils.palette') ---@module 'utils.palette'
 --   crust = hsl(240, 23, 9), -- Crust (hsl '#11111B'),
 -- }
 
-local a = hsl("#94e2d5")
-
 -- local C = {
 --   BASE00 = hsl(270, 30, 5),
 --   BASE01 = hsl(240, 21, 15),
@@ -327,6 +325,7 @@ local lsp_semantic_tokens = lush(function(utils)
     sym('@lsp.type.operator') { fg = C.BASE08 },
     sym('@lsp.type.punctuation') { fg = C.BASE08 },
     sym('@lsp.typemod.keyword.documentation') { fg = C.BASE0E },
+    sym('@lsp.typemod.keyword.public') { sym '@lsp.type.namespace' },
     sym('@lsp.typemod.function.library') { fg = C.BASE0D, italic = true },
     sym('@lsp.typemod.macro.library') { fg = C.BASE07, italic = true },
     sym('@lsp.typemod.variable.constant') { fg = C.BASE09, italic = true },

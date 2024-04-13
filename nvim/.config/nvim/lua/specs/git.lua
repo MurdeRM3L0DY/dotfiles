@@ -91,4 +91,19 @@ return {
       require('neogit').setup {}
     end,
   },
+  {
+    'SuperBo/fugit2.nvim',
+    opts = {},
+    dependencies = {
+      {
+        'chrisgrieser/nvim-tinygit', -- optional: for Github PR view
+        dependencies = { 'stevearc/dressing.nvim' },
+      },
+      'sindrets/diffview.nvim', -- optional: for Diffview
+    },
+    cmd = { 'Fugit2', 'Fugit2Graph' },
+    keys = {
+      { '<leader>G', mode = 'n', '<cmd>Fugit2<cr>' },
+    },
+  },
 }

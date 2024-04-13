@@ -9,13 +9,13 @@ return {
       servers = {},
     },
     config = function(_, opts)
-      local make_config = require('utils.lsp').make_config
       local lspconfig = require('lspconfig')
+      local c = require('config.lsp')
 
-      require('config.lsp.keys').update(opts.keys or {})
+      c.update_keys(opts.keys)
 
       for name, config in pairs(opts.servers) do
-        lspconfig[name].setup(make_config(config))
+        lspconfig[name].setup(c.make_client_config(config))
       end
     end,
   },
